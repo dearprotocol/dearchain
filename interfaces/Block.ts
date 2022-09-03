@@ -2,7 +2,7 @@ import { Transaction } from "./Transaction";
 
 export interface Block{
     nonce:number,
-    transactions: Array<Transaction>
+    transactions: Array<Transaction>,
     number:number,
     validator:string,
     totalCollectedFees:number,

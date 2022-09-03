@@ -20,7 +20,6 @@ export const generateAddress = (random:boolean,data:string,nonce:number=0,privat
     console.log(secp256k1.ecdsaVerify(signatureObject.signature,data_,secp256k1.publicKeyCreate(privatekey)))
     console.log("PUBKEY RECOV: ",getAddress(convertToHex(secp256k1.publicKeyCreate(privatekey))));
     console.log("PUBKEY RECOV: ",getAddress(convertToHex(secp256k1.ecdsaRecover(signatureObject.signature,signatureObject.recid,data_))));
-    
 }
 
 function convertToHex(array:Uint8Array){
@@ -44,7 +43,7 @@ export function convertTo64BaseBuffer(message:string){
 }
 
 function getAddress(key:string){
-    const hash = new SHA3(256);
+    const hash = new SHA3(224);
     hash.update(key);
     let digest = hash.digest('hex');
     console.log(digest);

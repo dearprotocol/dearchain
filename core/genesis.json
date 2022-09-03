@@ -1,0 +1,17 @@
+{
+    "alloc":{
+        "addressAWERRRNDNFJF":"12345678900000000000000"
+    },
+    "validators":[
+        "adr00000000000000000000000000000000000000000000000000000000"
+    ],
+    "nonce":0,
+    "transactions": [],
+    "number":0,
+    "validator":"adr00000000000000000000000000000000000000000000000000000000",
+    "totalCollectedFees":"",
+    "feesBurnt":0,
+    "feesToDao":0,
+    "feesToValidator":0,
+    "feesToTxnValidator":0
+}
