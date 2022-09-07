@@ -16,8 +16,7 @@ export const isValid=(sign:any,data_:any)=>{
       const privatekey = convertTo64BaseBuffer(PRIVATE_KEY);
       
         // console.log("Valid Transaction:",secp256k1.ecdsaVerify(sign.signature, data_,secp256k1.publicKeyCreate(privatekey)))
-        
-        
+    
         console.log("ADDED : ",getAddress(convertToHex(secp256k1.ecdsaRecover(sign.signature,sign.recid,data_))).toString("hex"));
       
       
