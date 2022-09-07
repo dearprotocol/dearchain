@@ -3,10 +3,12 @@
         "addressAWERRRNDNFJF":"12345678900000000000000"
     },
     "validators":[
-        "adr00000000000000000000000000000000000000000000000000000000"
+        
     ],
+    "epoch":30000,
+    "blocktime":100,
     "nonce":0,
-    "transactions": [],
+    "transactions":[],
     "number":0,
     "validator":"adr00000000000000000000000000000000000000000000000000000000",
     "totalCollectedFees":"",
