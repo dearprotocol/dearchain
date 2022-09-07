@@ -1,5 +1,5 @@
-export const DNS:iAddress = {
-    "dearprotocol.web":"10000000"
+export const AddressDB:iAddress = {
+    "adrAXRYUUSBNMMMMDHJFJKFHSHHUFFJHF":"10000000"
 }
 
 interface iAddress {
