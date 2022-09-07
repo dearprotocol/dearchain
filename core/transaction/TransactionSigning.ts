@@ -79,7 +79,7 @@ export const signTransaction = (
 ) => {
   try {
     if (fromAddress) {
-      let privatekey = convertTo64BaseBuffer(PRIVATE_KEY);
+      let privatekey = Buffer.from(PRIVATE_KEY,'hex');
 
       const txn = newTxn(fromAddress,toAddress,amount,0.02,nonce)
       // console.log("Transaction",txn);
