@@ -13,7 +13,7 @@ import { RawTransaction } from "../../interfaces/Transaction";
 // generateAddress(true);
 
 const transaction: any = [];
-const from = "7b28c810a305f31f55b8b45226ef372e89a1ec1ba718a441d4a6b6ad";
+const from = "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b";
 const to = "4a6805071400afd3e61d82ff9b113bb36736b9f321cd106a4f7b5710";
 
 
@@ -21,13 +21,10 @@ const to = "4a6805071400afd3e61d82ff9b113bb36736b9f321cd106a4f7b5710";
 
 
 const calculateHash = (data: string):string => {
-
     const hash = new SHA3(256);
-
     hash.update(data);
     let txn = hash.digest("hex");
-    console.log(txn)
-
+    console.log(txn);
     return txn;
 };
 
@@ -56,15 +53,15 @@ const newTxn = (
     extraData: "",
   };
 
-  const data =Buffer.from(JSON.stringify(newTransaction),"ascii");
+  const data = Buffer.from(JSON.stringify(newTransaction),"ascii");
   // const myConst = Buffer.from(data, "ascii");
   // console.log("MyConst ", myConst);
   // const decrypt = myConst.toString("ascii");
   // console.log("Decrypt", decrypt);
-  console.log("TxnData", newTransaction);
+  // console.log("TxnData", newTransaction);
   const txnHash = calculateHash(data.toString("hex"));
 
-  console.log("TxnHash", txnHash);
+  // console.log("TxnHash", txnHash);
   // transaction.push(txnHash); //add txnHash
   // console.log(transaction);
 
@@ -83,30 +80,30 @@ export const signTransaction = (
   try {
     if (fromAddress) {
       let privatekey = convertTo64BaseBuffer(PRIVATE_KEY);
-      // const hashTx: any = calculateHash(fromAddress, toAddress, amount,);
-      // let data_ = convertTo64BaseBuffer(hashTx);
-      // const sig = secp256k1.ecdsaSign(data_, privatekey);
-      // console.log("signTransaction", convertToHex(sig.signature));
-      // console.log("signTransaction", sig.recid);
-      // // const signature = sig.signature;
-
-      // isValid(sig, data_);
-
-      // return sig;
 
       const txn = newTxn(fromAddress,toAddress,amount,0.02,nonce)
-      console.log("Transaction",txn);
+      // console.log("Transaction",txn);
 
       const signature = secp256k1.ecdsaSign(Buffer.from(txn.txnHash,'hex'),privatekey);
-      console.log("signature",convertToHex(signature.signature))
-      console.log("signature",signature.recid)
-
-      return signature
+      console.log("Signature Length",signature.signature)
+      // Length: 122
+      let recidHex = signature.recid.toString(16);
+      if(recidHex.length < 2){
+        recidHex = "0"+recidHex;
+      }
+      // console.log("Recover ID Hex",recidHex)
+      //  128 + 2 + <EXTRA DTAT LENGTH>
+      let rawtransaction = convertToHex(signature.signature) + recidHex + txn.data.toString('hex'); 
+      return {
+        signature:convertToHex(signature.signature),
+        recId:recidHex,
+        rawTransaction:rawtransaction,
+        transactionHash:txn.txnHash
+      }
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-signTransaction(from, to, 5,"14");
-// newTxn(from,to,500,5,0)
+console.log(signTransaction(from, to, 5,"14")?.rawTransaction);

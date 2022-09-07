@@ -18,7 +18,7 @@ export const generateAddress=(random:boolean,data:string="0x1",nonce:number=0,pr
         }while(!secp256k1.privateKeyVerify(privatekey));
     }
     let key = secp256k1.publicKeyCreate(privatekey);
-    const PRIV_KEY  = convertToHex(key);
+    const PRIV_KEY  = convertToHex(privatekey);
     console.log("PrivateKey:" , PRIV_KEY);
 
 
@@ -26,10 +26,10 @@ export const generateAddress=(random:boolean,data:string="0x1",nonce:number=0,pr
 
     console.log("SIGNATURE: ",convertToHex(signatureObject.signature));
     console.log(secp256k1.ecdsaVerify(signatureObject.signature,data_,secp256k1.publicKeyCreate(privatekey)))
-    console.log("PUBKEY: ",getAddress(convertToHex(secp256k1.publicKeyCreate(privatekey))).toString('hex'));
+    console.log("PUBKEY: ",getAddress(convertToHex(key)).toString('hex'));
 
 }
-
+// 68a13a550a4a9418b2fc536a01925716c498093d2775ae94f72a33921ef2061c
 catch(error){
 
     console.log(error);

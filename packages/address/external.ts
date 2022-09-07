@@ -26,14 +26,18 @@ export function convertToHex(array:Uint8Array){
     try {
         let str = "";
         array.forEach(num=>{
-            str += num.toString(16);
+            let hexChar = num.toString(16);
+            if(hexChar.length !=2){
+                hexChar = "0"+hexChar;
+            }
+            str += hexChar;
         })
         return str;
     } catch (error) {
         throw new Error("Can\'t Convert to Hex");
     }
 }
-
+// cb3b0102035ec9ece621a146bbc10443fa05326a2275a508ad3edee74da65853529264d24a628c4c269bab39be4befae65e873659ee7f5bc7aff93319afd2d47
 export function convertTo64BaseBuffer(message:string){
     const hash = new SHA3(256);
     hash.update(message);
