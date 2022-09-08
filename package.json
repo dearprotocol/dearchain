@@ -8,7 +8,8 @@
     "run": "echo \"Error: no test specified\" && exit 1",
     "validate": "echo \"Error: no test specified\" && exit 1",
     "dev-test": "nodemon ./core/transaction/TransactionValidation.ts",
-    "sign:dev-test": "nodemon ./core/transaction/TransactionSigning.ts"
+    "sign:dev-test": "nodemon ./core/transaction/TransactionSigning.ts",
+    "block-test": "nodemon ./core/block/block.ts"
   },
   "author": "",
   "license": "ISC",
