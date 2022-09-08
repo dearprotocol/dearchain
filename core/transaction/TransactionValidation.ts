@@ -6,6 +6,7 @@ import secp256k1 from "secp256k1";
 import { SHA3 } from "sha3";
 import { PRIVATE_KEY } from "../../Constant";
 import { RawTransaction } from "../../interfaces/Transaction";
+import { updatebalance } from "../transaction/UpdateTransaction";
 import {
   convertTo64BaseBuffer,
   convertToHex,
@@ -30,17 +31,23 @@ export const isValid = (signedData: string) => {
     let recId = signedData.slice(128, 130);
     let txData = signedData.slice(130, signedData.length);
     // console.log(signature,recId,txData);
-    let transaction = JSON.parse(Buffer.from(txData, "hex").toString("ascii"));
+    let transaction: RawTransaction = JSON.parse(
+      Buffer.from(txData, "hex").toString("ascii")
+    );
     console.log(transaction);
     // let balance = getBalance(transaction.from)
-   const  type = transaction.type;
-   console.log(type)
+    console.log(transaction.nonce);
+    const type = transaction.type;
     if (validateSignature(transaction, txData, signature, recId)) {
-      if (feesCheckBalance(transaction)) {
+      //&& validateTransfer(transaction)
+      if (feesCheckBalance(transaction) && validateTransfer(transaction)) {
         console.log("Check");
         switch (type) {
           case "TRANSFER":
-            validateTransfer(transaction);
+            updateTransfer(transaction, txData);
+            //memory db transaction storage
+            // updateState include txn id and transaction status
+            //nonce +1
             console.log("Transaction Successfully Added");
             break;
         }
@@ -50,13 +57,18 @@ export const isValid = (signedData: string) => {
 };
 
 function validateTransfer(txn: RawTransaction) {
-//   console.log("Hii");
+  //   console.log("Hii");
+
+  let val;
   txn.tokenTransfer?.forEach((token, i) => {
     console.log(
       "Balance Available:",
       validateBalance(txn.from, token.tokenId, token.amount)
     );
+    val = validateBalance(txn.from, token.tokenId, token.amount);
   });
+
+  return val;
 }
 
 function validateBalance(address: string, asset: string, required: number) {
@@ -100,11 +112,11 @@ function validateSignature(
 function feesCheckBalance(txn: RawTransaction) {
   let fees;
   txn.tokenTransfer?.forEach((token, i) => {
-
-    // console.log(token.amount)
-    // console.log(txn.feesOffered)
     // console.log(AddressDB[txn.from]?.balance[token.tokenId])
-    if (token.tokenId == "DEAR") {
+    if (
+      token.tokenId == "DEAR" &&
+      AddressDB[txn.from]?.balance[token.tokenId] != undefined
+    ) {
       if (
         BigNumber(token.amount)
           .plus(txn.feesOffered)
@@ -123,5 +135,57 @@ function feesCheckBalance(txn: RawTransaction) {
 
   return fees;
 }
+
+function updateTransfer(transaction: RawTransaction, txData: string) {
+  // const fs = require("fs");
+  if (txData != undefined) {
+    transaction.tokenTransfer?.forEach((token, i) => {
+      const txid = calculateHash(txData);
+      let nonce = 1;
+      const totalAmount = BigNumber(token.amount).plus(transaction.feesOffered);
+      console.log(totalAmount.toFixed());
+
+      const newBalance = BigNumber(
+        AddressDB[transaction.from].balance[token.tokenId]
+      ).minus(totalAmount);
+      console.log("newBalance", newBalance.toFixed());
+      const address = transaction.from;
+
+      updatebalance(address, newBalance, "DEAR", true);
+
+      const toAddress = token.to;
+      let toBalance = BigNumber(token.amount);
+      if (AddressDB[token.tokenId] && AddressDB[token.to].balance[token.tokenId] != undefined ) {
+        toBalance = BigNumber(AddressDB[token.to].balance[token.tokenId]).plus(
+          toBalance
+        );
+      }
+
+      updatebalance(toAddress, toBalance, "DEAR", true);
+
+      console.log("check Balance",AddressDB)
+      const transferComplete = true;
+    });
+  }
+
+  // if (transferComplete) {
+  //   let txn = {
+  //     txid: txid,
+  //     nonce: nonce,
+  //     fromAddress: address,
+  //     toAddress: to,
+  //     totalAmount: amount,
+  //     fees: fees,
+  //   };
+
+  //    const newTxn = JSON.stringify(txn);
+  //    fs.writeFile('transaction.json', newTxn, (err: any) => {
+  //     // error checking
+  //     if(err) throw err;
+
+  //     // console.log("New data added");
+  // });
+}
+// }
 
 isValid(SignedTransactionData);

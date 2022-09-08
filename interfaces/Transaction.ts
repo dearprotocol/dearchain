@@ -33,16 +33,16 @@ export interface Transaction{
 
 
 export interface RawTransaction{
-    nonce:string,
-    feesOffered:number,
-    from:string,
+    nonce:string, //randomeGen Number
+    feesOffered:number, //adress
+    from:string, //adress
     type:"ORDER"|"TRANSFER"|"DEPLOYMENT"|"INTERACTION"|"DAO",
     order?: Order,
     tokenTransfer?:[  // Multiple Transactions can be performed
         {
-            tokenId:string,
-            amount:number,
-            to:string
+            tokenId:string, //tokenId ":DEAR"
+            amount:number, // amount 
+            to:string // toAddress
         }
     ],
     deployment?:DWeb,

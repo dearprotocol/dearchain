@@ -2,7 +2,7 @@ import { Transaction } from "./Transaction";
 
 export interface Block{
     nonce:number,
-    transactions: Array<Transaction>,
+    transactions: Array<string>,
     number:number,
     validator:string,
     totalCollectedFees:number,
@@ -10,7 +10,26 @@ export interface Block{
     feesToDao:number,
     feesToValidator:number,
     feesToTxnValidator:number,
-    blockhash:string
+    blockhash:string,
+    prevBlockHash : string,
+    timestamp :number,
+
+}
+
+
+export interface rawBlock{
+    nonce:number,
+    transactions: Array<string>,
+    number:number,
+    validator:string,
+    totalCollectedFees:number,
+    feesBurnt:number,
+    feesToDao:number,
+    feesToValidator:number,
+    feesToTxnValidator:number,
+    prevBlockHash : string,
+    timestamp :number,
+
 }
 
 // 20
