@@ -9,7 +9,8 @@
     "validate": "echo \"Error: no test specified\" && exit 1",
     "dev-test": "nodemon ./core/transaction/TransactionValidation.ts",
     "sign:dev-test": "nodemon ./core/transaction/TransactionSigning.ts",
-    "block-test": "nodemon ./core/block/BlockSigning.ts"
+    "block-test": "nodemon ./core/block/BlockSigning.ts",
+    "valid-block-test": "nodemon ./core/block/BlockValidation.ts"
   },
   "author": "",
   "license": "ISC",

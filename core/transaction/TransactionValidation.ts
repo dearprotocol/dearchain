@@ -56,7 +56,7 @@ export const isValid = (signedData: string) => {
   }
 };
 
-function validateTransfer(txn: RawTransaction) {
+export function validateTransfer(txn: RawTransaction) {
   //   console.log("Hii");
 
   let val;
@@ -84,7 +84,7 @@ function validateBalance(address: string, asset: string, required: number) {
   }
 }
 
-function validateSignature(
+export function validateSignature(
   transaction: RawTransaction,
   txData: string,
   signature: string,
@@ -104,7 +104,7 @@ function validateSignature(
       secp256k1.publicKeyCreate(Buffer.from(PRIVATE_KEY, "hex"))
     )
   );
-  console.log("Addr", convertToHex(address));
+  // console.log("Addr", convertToHex(address));
 
   return address;
 }
