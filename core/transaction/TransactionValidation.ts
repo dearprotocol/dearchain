@@ -21,7 +21,7 @@ const calculateHash = (data: string): string => {
   const hash = new SHA3(256);
   hash.update(data);
   let txn = hash.digest("hex");
-  console.log("Hash", txn);
+  // console.log("Hash", txn);
   return txn;
 };
 
@@ -34,14 +34,13 @@ export const isValidTransaction = (signedData: string) => {
     let transaction: RawTransaction = JSON.parse(
       Buffer.from(txData, "hex").toString("ascii")
     );
-    console.log(transaction);
+    // console.log(transaction);
     // let balance = getBalance(transaction.from)
-    console.log(transaction.nonce);
+    // console.log(transaction.nonce);
     const type = transaction.type;
     if (validateSignature(transaction, txData, signature, recId)) {
       //&& validateTransfer(transaction)
       if (feesCheckBalance(transaction) && validateTransfer(transaction)) {
-        console.log("Check");
         return true;
         // switch (type) {
         //   case "TRANSFER":
@@ -64,10 +63,10 @@ export function validateTransfer(txn: RawTransaction) {
 
   let val;
   txn.tokenTransfer?.forEach((token, i) => {
-    console.log(
-      "Balance Available:",
-      validateBalance(txn.from, token.tokenId, token.amount)
-    );
+    // console.log(
+    //   "Balance Available:",
+    //   validateBalance(txn.from, token.tokenId, token.amount)
+    // );
     val = validateBalance(txn.from, token.tokenId, token.amount);
   });
 
@@ -146,12 +145,12 @@ function updateTransfer(transaction: RawTransaction, txData: string) {
       const txid = calculateHash(txData);
       let nonce = 1;
       const totalAmount = BigNumber(token.amount).plus(transaction.feesOffered);
-      console.log(totalAmount.toFixed());
+      // console.log(totalAmount.toFixed());
 
       const newBalance = BigNumber(
         AddressDB[transaction.from].balance[token.tokenId]
       ).minus(totalAmount);
-      console.log("newBalance", newBalance.toFixed());
+      // console.log("newBalance", newBalance.toFixed());
       const address = transaction.from;
 
       // updatebalance(address, newBalance, "DEAR", true);
@@ -166,7 +165,7 @@ function updateTransfer(transaction: RawTransaction, txData: string) {
 
       // updatebalance(toAddress, toBalance, "DEAR", true);
 
-      console.log("check Balance", AddressDB)
+      // console.log("check Balance", AddressDB)
       const transferComplete = true;
     });
   }

@@ -24,7 +24,7 @@ export const calculateHash = (data: string):string => {
     const hash = new SHA3(256);
     hash.update(data);
     let txn = hash.digest("hex");
-    console.log(txn);
+    // console.log(txn);
     return txn;
 };
 
@@ -81,7 +81,7 @@ export const signTransaction = (
       let privatekey = Buffer.from(PRIVATE_KEY,'hex');
 
       const txn = newTxn(fromAddress,toAddress,amount,0.02,nonce)
-      console.log("Transaction",txn.txnHash);
+      // console.log("Transaction",txn.txnHash);
 
       const signature = secp256k1.ecdsaSign(Buffer.from(txn.txnHash,'hex'),privatekey);
       // console.log("Signature Length",signature.signature)
@@ -105,5 +105,5 @@ export const signTransaction = (
   }
 };
 
-console.log(signTransaction(from, to, 14,"9")?.rawTransaction);
+// console.log(signTransaction(from, to, 14,"9")?.rawTransaction);
 // signTransaction(from, to, 5,"14")?.rawTransaction

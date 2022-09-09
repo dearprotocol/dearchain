@@ -50,6 +50,6 @@ export function getAddress(key:string){
     const hash = new SHA3(224);
     hash.update(key);
     let digest = hash.digest('hex');
-    console.log(digest);
+    // console.log(digest);
     return Buffer.from(digest,'hex');
 }
