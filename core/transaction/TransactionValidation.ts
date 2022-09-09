@@ -25,7 +25,7 @@ const calculateHash = (data: string): string => {
   return txn;
 };
 
-export const isValid = (signedData: string) => {
+export const isValidTransaction = (signedData: string) => {
   if (signedData.length > 130) {
     let signature = signedData.slice(0, 128);
     let recId = signedData.slice(128, 130);
@@ -42,17 +42,20 @@ export const isValid = (signedData: string) => {
       //&& validateTransfer(transaction)
       if (feesCheckBalance(transaction) && validateTransfer(transaction)) {
         console.log("Check");
-        switch (type) {
-          case "TRANSFER":
-            updateTransfer(transaction, txData);
-            //memory db transaction storage
-            // updateState include txn id and transaction status
-            //nonce +1
-            console.log("Transaction Successfully Added");
-            break;
-        }
+        return true;
+        // switch (type) {
+        //   case "TRANSFER":
+        //     // updateTransfer(transaction, txData);
+
+        //     //memory db transaction storage
+        //     // updateState include txn id and transaction status
+        //     //nonce +1
+        //     console.log("Transaction Successfully Added");
+        //     break;
+        // }
       }
     }
+    return false;
   }
 };
 
@@ -97,13 +100,13 @@ export function validateSignature(
     Buffer.from(txid, "hex")
   );
   let address = getAddress(convertToHex(recoveredPublicKey));
-  console.log(
-    secp256k1.ecdsaVerify(
-      Buffer.from(signature, "hex"),
-      Buffer.from(txid, "hex"),
-      secp256k1.publicKeyCreate(Buffer.from(PRIVATE_KEY, "hex"))
-    )
-  );
+  // console.log(
+  //   secp256k1.ecdsaVerify(
+  //     Buffer.from(signature, "hex"),
+  //     Buffer.from(txid, "hex"),
+  //     secp256k1.publicKeyCreate(Buffer.from(PRIVATE_KEY, "hex"))
+  //   )
+  // );
   // console.log("Addr", convertToHex(address));
 
   return address;
@@ -151,19 +154,19 @@ function updateTransfer(transaction: RawTransaction, txData: string) {
       console.log("newBalance", newBalance.toFixed());
       const address = transaction.from;
 
-      updatebalance(address, newBalance, "DEAR", true);
+      // updatebalance(address, newBalance, "DEAR", true);
 
       const toAddress = token.to;
       let toBalance = BigNumber(token.amount);
-      if (AddressDB[token.tokenId] && AddressDB[token.to].balance[token.tokenId] != undefined ) {
+      if (AddressDB[token.tokenId] && AddressDB[token.to].balance[token.tokenId] != undefined) {
         toBalance = BigNumber(AddressDB[token.to].balance[token.tokenId]).plus(
           toBalance
         );
       }
 
-      updatebalance(toAddress, toBalance, "DEAR", true);
+      // updatebalance(toAddress, toBalance, "DEAR", true);
 
-      console.log("check Balance",AddressDB)
+      console.log("check Balance", AddressDB)
       const transferComplete = true;
     });
   }
@@ -188,4 +191,4 @@ function updateTransfer(transaction: RawTransaction, txData: string) {
 }
 // }
 
-isValid(SignedTransactionData);
+isValidTransaction(SignedTransactionData);

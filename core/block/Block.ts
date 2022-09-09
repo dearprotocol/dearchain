@@ -4,10 +4,11 @@ import { PRIVATE_KEY } from "../../Constant";
 import secp256k1 from "secp256k1";
 import { SHA3 } from "sha3";
 import { convertToHex, getAddress } from "../../packages/address/external";
+import { TxPair } from "./BlockSigning";
 
 export function createBlock(
   nonce: number,
-  transactions: Array<string>,
+  transactions: Array<TxPair>,
   blockNumber: number,
   validator: string,
   prevBlockHash: string

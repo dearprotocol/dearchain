@@ -7,7 +7,7 @@ import {
   convertTo64BaseBuffer,
   convertToHex,
 } from "../../packages/address/external";
-import { isValid } from "./TransactionValidation";
+import { isValidTransaction } from "./TransactionValidation";
 import { RawTransaction } from "../../interfaces/Transaction";
 
 // generateAddress(true);

@@ -8,6 +8,8 @@ import { SHA3 } from "sha3";
 import { convertToHex, getAddress } from "../../packages/address/external";
 
 import { createBlock } from "./Block";
+import { TransactionPoolDB } from "../../packages/db/memory/transactionpool";
+import { isValidTransaction, validateTransfer } from "../transaction/TransactionValidation";
 
 function signBlock(
   nonce: number,
@@ -17,9 +19,19 @@ function signBlock(
 ) {
   try {
     const privatekey = Buffer.from(PRIVATE_KEY, "hex"); //VALIDATOR PRIVATE KEY
+    let transactions:Array<TxPair> = [];
+    for(let key in TransactionPoolDB.txData){
+      // console.log(key);
+      if(isValidTransaction(TransactionPoolDB.txData[key])){
+        transactions.push({
+          hash:key,
+          data:TransactionPoolDB.txData[key]
+        });
+      }
+    }
     const newBlock = createBlock(
       nonce,
-      [],
+      transactions,
       blockNumber,
       validator,
       prevBlockHash
@@ -63,3 +75,8 @@ signBlock(
   "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",
   "0x1"
 );
+
+export interface TxPair{
+  hash:string,
+  data:string
+}

@@ -1,8 +1,9 @@
+import { TxPair } from "../core/block/BlockSigning";
 import { Transaction } from "./Transaction";
 
 export interface Block{
     nonce:number,
-    transactions: Array<string>,
+    transactions: Array<TxPair>,
     number:number,
     validator:string,
     totalCollectedFees:number,
@@ -19,7 +20,7 @@ export interface Block{
 
 export interface rawBlock{
     nonce:number,
-    transactions: Array<string>,
+    transactions: Array<TxPair>,
     number:number,
     validator:string,
     totalCollectedFees:number,
@@ -34,25 +35,4 @@ export interface rawBlock{
 
 // 20
 // 1
-// 79
-
-// from : YOUR ($100) -> input
-// to : [YOUR ($79), SUBHAM ($20)] -> output
-
-
-// Address InnoDB
-// add: Balance
-
-// YOUR : $100
-// SUBHAM : $0
-// VALIDATOR: $0
-
-// from: YOUR($100)
-// to : SUBHAM($20)
-// txFees: $1
-
-// ADDRESS=> HAS MORE THAN $21 +> TRUE/FALSE
-
-// UPDATE => YOUR:$79
-// SUBHAM: $20
-// VALIDATOR: $1
+// 7
