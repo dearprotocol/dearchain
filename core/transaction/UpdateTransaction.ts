@@ -24,6 +24,8 @@ export function updatebalance(
 
     AddressDB[address].balance[asset] = newBalance.toFixed(8);
 
+    console.log(AddressDB)
+
   } else {
     // Address Doesnt Exist
 

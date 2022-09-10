@@ -2,7 +2,7 @@ import { generateAddress } from "../generateAddress";
 import { randomBytes, createHash } from "crypto";
 import secp256k1 from "secp256k1";
 import { SHA3 } from "sha3";
-import { PRIVATE_KEY1 } from "../../Constant";
+import { PRIVATE_KEY} from "../../Constant";
 import {
   convertTo64BaseBuffer,
   convertToHex,
@@ -13,8 +13,8 @@ import { RawTransaction } from "../../interfaces/Transaction";
 // generateAddress(true);
 
 const transaction: any = [];
-const from = "c7ef5fd3009f0019c177f3b38883eef58ee3057222f1c7d2a194ded5";
-const to = "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b";
+const from = "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b"
+const to = "c7ef5fd3009f0019c177f3b38883eef58ee3057222f1c7d2a194ded5";
 
 
 // const 
@@ -44,7 +44,8 @@ const newTxn = (
     tokenTransfer: [
       // Multiple Transactions can be performed
       {
-        tokenId: "DEAR",
+        // tokenId: "DEAR",
+        tokenId: "USDT",
         amount: amount,
         to: toAddress,
       },
@@ -64,6 +65,9 @@ const newTxn = (
   // console.log("TxnHash", txnHash);
   // transaction.push(txnHash); //add txnHash
   // console.log(transaction);
+
+  
+
   return {
     data: data,
     txnHash: txnHash,
@@ -78,7 +82,7 @@ export const signTransaction = (
 ) => {
   try {
     if (fromAddress) {
-      let privatekey = Buffer.from(PRIVATE_KEY1,'hex');
+      let privatekey = Buffer.from(PRIVATE_KEY,'hex');
 
       const txn = newTxn(fromAddress,toAddress,amount,0.02,nonce)
       // console.log("Transaction",txn.txnHash);
@@ -105,5 +109,5 @@ export const signTransaction = (
   }
 };
 
-// console.log(signTransaction(from, to, 14,"3")?.rawTransaction);
+console.log(signTransaction(from, to,5,"3")?.rawTransaction);
 // signTransaction(from, to, 5,"14")?.rawTransaction

@@ -16,8 +16,10 @@ import { AddressDB } from "../../packages/db/memory/address";
 import { emitWss } from "../../p2p/emit";
 import { TransactionPoolDB } from "../../packages/db/memory/transactionpool";
 // 122 + 2 + DATA
-const SignedTransactionData =
-  "dd706df2495a07d09c68e67438b6fd0d3c6dc118757b5d93556136a627a91ae42bc7753ecd70e79d1e8b8fbfa2cd00fc41df88d3333c65abf562b67c802ef292007b226e6f6e6365223a2230222c22666565734f666665726564223a302e30322c2266726f6d223a226637383762373436393864643430313665646563383561393238343561373439366637343233613861656664646337303064313164643462222c2274797065223a225452414e53464552222c22746f6b656e5472616e73666572223a5b7b22746f6b656e4964223a2244454152222c22616d6f756e74223a352c22746f223a223461363830353037313430306166643365363164383266663962313133626233363733366239663332316364313036613466376235373130227d5d2c22657874726144617461223a22227d";
+const SignedTransactionData = //for other token testing
+  "1590304ebe4cff85a15635579fc062a25bf2826db283749207a8015d4593fdb96d70b23c07ed9a15ad59a3f8466e9552689cb9212e83fa473372d1507831b605017b226e6f6e6365223a2230222c22666565734f666665726564223a302e30322c2266726f6d223a226637383762373436393864643430313665646563383561393238343561373439366637343233613861656664646337303064313164643462222c2274797065223a225452414e53464552222c22746f6b656e5472616e73666572223a5b7b22746f6b656e4964223a2255534454222c22616d6f756e74223a352c22746f223a226337656635666433303039663030313963313737663362333838383365656635386565333035373232326631633764326131393464656435227d5d2c22657874726144617461223a22227d";
+// const SignedTransactionData =
+//   "dd706df2495a07d09c68e67438b6fd0d3c6dc118757b5d93556136a627a91ae42bc7753ecd70e79d1e8b8fbfa2cd00fc41df88d3333c65abf562b67c802ef292007b226e6f6e6365223a2230222c22666565734f666665726564223a302e30322c2266726f6d223a226637383762373436393864643430313665646563383561393238343561373439366637343233613861656664646337303064313164643462222c2274797065223a225452414e53464552222c22746f6b656e5472616e73666572223a5b7b22746f6b656e4964223a2244454152222c22616d6f756e74223a352c22746f223a223461363830353037313430306166643365363164383266663962313133626233363733366239663332316364313036613466376235373130227d5d2c22657874726144617461223a22227d";
 
 const calculateHash = (data: string): string => {
   const hash = new SHA3(256);
@@ -118,8 +120,12 @@ function feesCheckBalance(txn: RawTransaction) {
   let fees;
   txn.tokenTransfer?.forEach((token, i) => {
     // console.log(AddressDB[txn.from]?.balance[token.tokenId])
+    // if (
+    //   token.tokenId == "DEAR" &&
+    //   AddressDB[txn.from]?.balance[token.tokenId] != undefined
+    // ) {
     if (
-      token.tokenId == "DEAR" &&
+      token.tokenId == "USDT" &&
       AddressDB[txn.from]?.balance[token.tokenId] != undefined
     ) {
       if (
@@ -137,10 +143,6 @@ function feesCheckBalance(txn: RawTransaction) {
       }
     }
 
-    else if(token.tokenId == "USDT" &&
-    AddressDB[txn.from]?.balance[token.tokenId] != undefined){
-
-    }
   });
 
   return fees;
@@ -150,6 +152,8 @@ function updateTransfer(transaction: RawTransaction, txData: string,signedData:s
   // const fs = require("fs");
   if (txData != undefined) {
     const txid = calculateHash(txData);
+
+    console.log("transactions ", transaction)
     transaction.tokenTransfer?.forEach((token, i) => {
       let nonce = 1;
       const totalAmount = BigNumber(token.amount).plus(transaction.feesOffered);
@@ -161,10 +165,13 @@ function updateTransfer(transaction: RawTransaction, txData: string,signedData:s
       // console.log("newBalance", newBalance.toFixed());
       const address = transaction.from;
 
-      // updatebalance(address, newBalance, "DEAR", true);
+      // updatebalance(address, newBalance, "USDT", true); ///
 
       const toAddress = token.to;
       let toBalance = BigNumber(token.amount);
+
+      // console.log("tokenID ", AddressDB[token.tokenId])
+      console.log(token.to)
       if (AddressDB[token.tokenId] && AddressDB[token.to].balance[token.tokenId] != undefined) {
         toBalance = BigNumber(AddressDB[token.to].balance[token.tokenId]).plus(
           toBalance
@@ -173,14 +180,14 @@ function updateTransfer(transaction: RawTransaction, txData: string,signedData:s
 
       
 
-      // updatebalance(toAddress, toBalance, "DEAR", true);
+      updatebalance(toAddress, toBalance, "USDT", true);
 
-      console.log("check Balance", signedData)
+      console.log("check Balance", AddressDB)
       const transferComplete = true;
     });
     
     TransactionPoolDB.txData[txid] = signedData
-    console.log("txpoolDB",TransactionPoolDB);
+    // console.log("txpoolDB",TransactionPoolDB);
   }
   
   //   if (transferComplete) {
