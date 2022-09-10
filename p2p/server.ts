@@ -49,12 +49,12 @@ const replacerFunc = () => {
 
 // Block Pipeline
 
-signBlock(
+setInterval(() =>{signBlock(
     1,
     4042,
     "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",
     "0x1"
-);
+)},10000);
 
 wsServer.on('request', function(request:any) {
     // if (!originIsAllowed(request.origin)) {

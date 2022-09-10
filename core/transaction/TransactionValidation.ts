@@ -108,7 +108,7 @@ export function validateSignature(
   //     secp256k1.publicKeyCreate(Buffer.from(PRIVATE_KEY, "hex"))
   //   )
   // );
-  console.log("Addr", convertToHex(address));
+  // console.log("Addr", convertToHex(address));
 
   return address;
 }
