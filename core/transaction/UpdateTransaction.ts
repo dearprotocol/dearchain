@@ -26,7 +26,7 @@ export function updatebalance(
 
     updateFees(address,fees)
 
-    console.log(AddressDB)
+    // console.log(AddressDB)
 
   } else {
     // Address Doesnt Exist
@@ -46,14 +46,14 @@ export function updatebalance(
 
 function updateFees(address:string,fees:number){
 
-console.log(fees);
+// console.log(fees);
 
 const minusFees = BigNumber(AddressDB[address].balance["DEAR"]).minus(fees)
 
 AddressDB[address].balance["DEAR"] = minusFees.toFixed()
 
 
-console.log("fees deducted",minusFees)
+// console.log("fees deducted",minusFees)
 
 
 }
