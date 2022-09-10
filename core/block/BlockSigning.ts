@@ -9,7 +9,15 @@ import { convertToHex, getAddress } from "../../packages/address/external";
 
 import { createBlock } from "./Block";
 import { TransactionPoolDB } from "../../packages/db/memory/transactionpool";
-import { isValidTransaction, validateTransfer } from "../transaction/TransactionValidation";
+import {
+  isValidTransaction,
+  validateTransfer,
+} from "../transaction/TransactionValidation";
+import { RawTransaction } from "../../interfaces/Transaction";
+
+
+let walletAddr:string[] =[]
+
 
 function signBlock(
   nonce: number,
@@ -18,17 +26,33 @@ function signBlock(
   prevBlockHash: string
 ) {
   try {
+
+    let temp:string[] =[]
     const privatekey = Buffer.from(PRIVATE_KEY, "hex"); //VALIDATOR PRIVATE KEY
-    let transactions:Array<TxPair> = [];
-    for(let key in TransactionPoolDB.txData){
-      // console.log(key);
-      if(isValidTransaction(TransactionPoolDB.txData[key])){
-        transactions.push({
-          hash:key,
-          data:TransactionPoolDB.txData[key]
-        });
+    let transactions: Array<TxPair> = [];
+    for (let key in TransactionPoolDB.txData) {
+
+      let uniqueWallet = uniqueWalletTxn(TransactionPoolDB.txData[key]);
+
+
+      temp = [...new Set(walletAddr)]
+
+      console.log(temp)
+
+        if (isValidTransaction(TransactionPoolDB.txData[key])) {
+          if (temp == null) {
+            console.log("working");
+          transactions.push({
+            hash: key,
+            data: TransactionPoolDB.txData[key],
+          });
+
+          console.log(transactions)
+        }
       }
     }
+
+    
     const newBlock = createBlock(
       nonce,
       transactions,
@@ -40,8 +64,8 @@ function signBlock(
       Buffer.from(newBlock.blockHash, "hex"),
       privatekey
     ); //signing a block
-    console.log("blockSignature", convertToHex(blockSignature.signature)); // generated block signature
-    console.log("blockSignature", blockSignature.recid);
+    // console.log("blockSignature", convertToHex(blockSignature.signature)); // generated block signature
+    // console.log("blockSignature", blockSignature.recid);
 
     let blockRecid = blockSignature.recid.toString(16); //recid takes value from 0 to 3 and it should be in two digit format
 
@@ -67,6 +91,31 @@ function signBlock(
   }
 }
 
+export function uniqueWalletTxn(txnData: string) {
+
+// console.log(txnData)
+
+let signature = txnData.slice(0, 128);
+  let recId = txnData.slice(128, 130);
+  let txn_Data = txnData.slice(130, txnData.length)
+  let txid = calculateHash(txn_Data);
+  let recoveredPublicKey = secp256k1.ecdsaRecover(
+    Buffer.from(signature, "hex"),
+    parseInt(recId, 16),
+    Buffer.from(txid, "hex")
+  );
+
+  let address = getAddress(convertToHex(recoveredPublicKey))
+  let walletAddress = convertToHex(address)
+
+
+  // let arr:string []= [] ;
+
+    walletAddr.push(walletAddress)
+    // console.log(walletAddr)
+
+  return walletAddress;
+}
 // createBlock(1,[],4042,"f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b","0x1")
 
 signBlock(
@@ -76,7 +125,7 @@ signBlock(
   "0x1"
 );
 
-export interface TxPair{
-  hash:string,
-  data:string
+export interface TxPair {
+  hash: string;
+  data: string;
 }

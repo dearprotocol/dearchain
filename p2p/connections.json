@@ -1,0 +1,243 @@
+[{
+    "_events": {},
+    "_eventsCount": 3,
+    "_pingListenerCount": 0,
+    "config": {
+        "httpServer": [
+            {
+                "_events": {},
+                "_eventsCount": 3,
+                "_connections": 1,
+                "_handle": {
+                    "reading": false
+                },
+                "_usingWorkers": false,
+                "_workers": [],
+                "_unref": false,
+                "allowHalfOpen": true,
+                "pauseOnConnect": false,
+                "noDelay": false,
+                "keepAlive": false,
+                "keepAliveInitialDelay": 0,
+                "httpAllowHalfOpen": false,
+                "timeout": 0,
+                "keepAliveTimeout": 5000,
+                "maxHeadersCount": null,
+                "maxRequestsPerSocket": 0,
+                "headersTimeout": 60000,
+                "requestTimeout": 0,
+                "_connectionKey": "6::::8080"
+            }
+        ],
+        "maxReceivedFrameSize": 65536,
+        "maxReceivedMessageSize": 1048576,
+        "fragmentOutgoingMessages": true,
+        "fragmentationThreshold": 16384,
+        "keepalive": true,
+        "keepaliveInterval": 20000,
+        "dropConnectionOnKeepaliveTimeout": true,
+        "keepaliveGracePeriod": 10000,
+        "useNativeKeepalive": false,
+        "assembleFragments": true,
+        "autoAcceptConnections": false,
+        "ignoreXForwardedFor": false,
+        "parseCookies": true,
+        "parseExtensions": true,
+        "disableNagleAlgorithm": true,
+        "closeTimeout": 5000
+    },
+    "socket": {
+        "connecting": false,
+        "_hadError": false,
+        "_parent": null,
+        "_host": null,
+        "_readableState": {
+            "objectMode": false,
+            "highWaterMark": 16384,
+            "buffer": {
+                "head": null,
+                "tail": null,
+                "length": 0
+            },
+            "length": 0,
+            "pipes": [],
+            "flowing": null,
+            "ended": false,
+            "endEmitted": false,
+            "reading": true,
+            "constructed": true,
+            "sync": false,
+            "needReadable": true,
+            "emittedReadable": false,
+            "readableListening": false,
+            "resumeScheduled": false,
+            "errorEmitted": false,
+            "emitClose": false,
+            "autoDestroy": true,
+            "destroyed": false,
+            "errored": null,
+            "closed": false,
+            "closeEmitted": false,
+            "defaultEncoding": "utf8",
+            "awaitDrainWriters": null,
+            "multiAwaitDrain": false,
+            "readingMore": false,
+            "dataEmitted": false,
+            "decoder": null,
+            "encoding": null
+        },
+        "_events": {
+            "end": [
+                null,
+                null
+            ],
+            "close": [
+                null,
+                null
+            ]
+        },
+        "_eventsCount": 2,
+        "_writableState": {
+            "objectMode": false,
+            "highWaterMark": 16384,
+            "finalCalled": false,
+            "needDrain": false,
+            "ending": false,
+            "ended": false,
+            "finished": false,
+            "destroyed": false,
+            "decodeStrings": false,
+            "defaultEncoding": "utf8",
+            "length": 0,
+            "writing": false,
+            "corked": 0,
+            "sync": false,
+            "bufferProcessing": false,
+            "writecb": null,
+            "writelen": 0,
+            "afterWriteTickInfo": {
+                "count": 1
+            },
+            "buffered": [],
+            "bufferedIndex": 0,
+            "allBuffers": true,
+            "allNoop": true,
+            "pendingcb": 1,
+            "constructed": true,
+            "prefinished": false,
+            "errorEmitted": false,
+            "emitClose": false,
+            "autoDestroy": true,
+            "errored": null,
+            "closed": false,
+            "closeEmitted": false
+        },
+        "allowHalfOpen": true,
+        "_sockname": null,
+        "_pendingData": null,
+        "_pendingEncoding": "",
+        "parser": null,
+        "_paused": false,
+        "_peername": {
+            "address": "::ffff:127.0.0.1",
+            "family": "IPv6",
+            "port": 58346
+        },
+        "timeout": 0
+    },
+    "protocol": "echo-protocol",
+    "extensions": [],
+    "remoteAddress": "::ffff:127.0.0.1",
+    "closeReasonCode": -1,
+    "closeDescription": null,
+    "closeEventEmitted": false,
+    "maskOutgoingPackets": false,
+    "maskBytes": {
+        "type": "Buffer",
+        "data": [
+            0,
+            0,
+            0,
+            0
+        ]
+    },
+    "frameHeader": {
+        "type": "Buffer",
+        "data": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ]
+    },
+    "bufferList": {
+        "_events": {},
+        "_eventsCount": 0,
+        "length": 0
+    },
+    "currentFrame": {
+        "maskBytes": {
+            "type": "Buffer",
+            "data": [
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "frameHeader": {
+            "type": "Buffer",
+            "data": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "maxReceivedFrameSize": 65536,
+        "protocolError": false,
+        "frameTooLarge": false,
+        "invalidCloseFrameLength": false,
+        "parseState": 1,
+        "closeStatus": -1
+    },
+    "fragmentationSize": 0,
+    "frameQueue": [],
+    "connected": true,
+    "state": "open",
+    "waitingForCloseResponse": false,
+    "receivedEnd": false,
+    "closeTimeout": 5000,
+    "assembleFragments": true,
+    "maxReceivedMessageSize": 1048576,
+    "outputBufferFull": false,
+    "inputPaused": false,
+    "_keepaliveTimeoutID": {
+        "_idleTimeout": 20000,
+        "_idlePrev": {
+            "expiry": 28297,
+            "id": -9007199254740991,
+            "msecs": 20000,
+            "priorityQueuePosition": 1
+        },
+        "_idleStart": 8297,
+        "_repeat": null,
+        "_destroyed": false
+    },
+    "webSocketVersion": 13,
+    "remoteAddresses": [
+        "::ffff:127.0.0.1"
+    ]
+}]
