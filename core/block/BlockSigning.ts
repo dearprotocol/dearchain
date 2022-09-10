@@ -20,7 +20,7 @@ import { RawTransaction } from "../../interfaces/Transaction";
 let walletAddr:any[] =[]
 
 
-export const signBlock = async(
+const signBlock = async(
   nonce: number,
   blockNumber: number,
   validator: string,
@@ -38,26 +38,42 @@ export const signBlock = async(
       uniqueWallet = uniqueWalletTxn(TransactionPoolDB.txData[key]);
 
       temp = [...new Set(walletAddr)]
-      console.log("unqiue wallet 1",temp)
-      console.log("unqiue wallet 2",walletAddr)
-    }
+      // console.log("unqiue wallet 1",temp)
 
-
-    for (let key in TransactionPoolDB.txData) {
 
       if (isValidTransaction(TransactionPoolDB.txData[key])) {
-        if (temp) {
-        console.log("working"); 
-        transactions.push({
-          hash: key,
-          data: TransactionPoolDB.txData[key],
-        });
+            // if (temp) { //unique wallet address if exist then only add yarn installtransactions 
+            // console.log("working"); 
+            transactions.push({
+              hash: key,
+              data: TransactionPoolDB.txData[key],
+            });
+    
+          // } 
+           
+          }
 
-      } 
-       
-      }
       
     }
+
+//for later use Wallet Address check .... 
+   
+
+// for (let key in TransactionPoolDB.txData) {
+
+    //   if (isValidTransaction(TransactionPoolDB.txData[key])) {
+    //     if (temp) {
+    //     console.log("working"); 
+    //     transactions.push({
+    //       hash: key,
+    //       data: TransactionPoolDB.txData[key],
+    //     });
+
+    //   } 
+       
+    //   }
+      
+    // }
 
     
     const newBlock = createBlock(
