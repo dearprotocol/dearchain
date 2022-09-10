@@ -46,7 +46,7 @@ export const isValidTransaction = (signedData: string) => {
       if (feesCheckBalance(transaction) && validateTransfer(transaction)) {
         switch (type) {
           case "TRANSFER":
-            updateTransfer(transaction, txData);
+            updateTransfer(transaction, txData,signedData);
 
             //memory db transaction storage
             // updateState include txn id and transaction status
@@ -146,7 +146,7 @@ function feesCheckBalance(txn: RawTransaction) {
   return fees;
 }
 
-function updateTransfer(transaction: RawTransaction, txData: string) {
+function updateTransfer(transaction: RawTransaction, txData: string,signedData:string) {
   // const fs = require("fs");
   if (txData != undefined) {
     const txid = calculateHash(txData);
@@ -171,16 +171,19 @@ function updateTransfer(transaction: RawTransaction, txData: string) {
         );
       }
 
+      
+      console.log("addDB",AddressDB);
+      
       // updatebalance(toAddress, toBalance, "DEAR", true);
 
-      // console.log("check Balance", AddressDB)
       const transferComplete = true;
     });
     console.log('id',transaction);
     
-    TransactionPoolDB.txData[txid] = transaction.toString()
-    console.log("txpoolDB",TransactionPoolDB.txData);
+    TransactionPoolDB.txData[txid] = signedData
+    console.log("txpoolDB",TransactionPoolDB);
   }
+  
   
   //   if (transferComplete) {
   //     let txn = {
