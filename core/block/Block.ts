@@ -5,6 +5,7 @@ import secp256k1 from "secp256k1";
 import { SHA3 } from "sha3";
 import { convertToHex, getAddress } from "../../packages/address/external";
 import { TxPair } from "./BlockSigning";
+import { emitWss } from "../../p2p/emit";
 
 export function createBlock(
   nonce: number,
@@ -26,13 +27,13 @@ export function createBlock(
     prevBlockHash: prevBlockHash,
     timestamp: Date.now(),
   };
-
   const blockData = Buffer.from(JSON.stringify(newBlock), "ascii");
   // console.log("BlockData",blockData);
-
+  
   const blockHash = calculateHash(blockData.toString("hex"));
-
+  
   // console.log("BlockHash: ",blockHash)
+  emitWss(JSON.stringify({event_name: "Block_Added", blockNumber,blockHash}))
 
   return {
     blockData: blockData,
