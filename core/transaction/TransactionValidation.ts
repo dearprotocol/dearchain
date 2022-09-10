@@ -14,6 +14,7 @@ import {
 } from "../../packages/address/external";
 import { AddressDB } from "../../packages/db/memory/address";
 import { emitWss } from "../../p2p/emit";
+import { TransactionPoolDB } from "../../packages/db/memory/transactionpool";
 // 122 + 2 + DATA
 const SignedTransactionData =
   "cfe8c2a4664eb980df29b2fa9c3e208d05e1ac5df579767ad09156567d623e0d7834054403392a635a63461e227f42237812f93e2acc0e7e023a1b20baef9f39007b226e6f6e6365223a2230222c22666565734f666665726564223a302e30322c2266726f6d223a226337656635666433303039663030313963313737663362333838383365656635386565333035373232326631633764326131393464656435222c2274797065223a225452414e53464552222c22746f6b656e5472616e73666572223a5b7b22746f6b656e4964223a2244454152222c22616d6f756e74223a31342c22746f223a226637383762373436393864643430313665646563383561393238343561373439366637343233613861656664646337303064313164643462227d5d2c22657874726144617461223a22227d";
@@ -42,17 +43,17 @@ export const isValidTransaction = (signedData: string) => {
     if (validateSignature(transaction, txData, signature, recId)) {
       //&& validateTransfer(transaction)
       if (feesCheckBalance(transaction) && validateTransfer(transaction)) {
-        return true;
-        // switch (type) {
-        //   case "TRANSFER":
-        //     // updateTransfer(transaction, txData);
+        switch (type) {
+          case "TRANSFER":
+            // updateTransfer(transaction, txData);
 
-        //     //memory db transaction storage
-        //     // updateState include txn id and transaction status
-        //     //nonce +1
-        //     console.log("Transaction Successfully Added");
-        //     break;
-        // }
+            //memory db transaction storage
+            // updateState include txn id and transaction status
+            //nonce +1
+            console.log("Transaction Successfully Added");
+            break;
+        }
+        return true;
       }
     }
     return false;
@@ -169,27 +170,29 @@ function updateTransfer(transaction: RawTransaction, txData: string) {
       // console.log("check Balance", AddressDB)
       const transferComplete = true;
       emitWss(JSON.stringify({event_name: "transaction submitted", transactionHash:txid}))
+      
+      TransactionPoolDB.txData[txid] = transaction.toString()
+      console.log("txpoolDB",TransactionPoolDB);
     });
   }
-
-  // if (transferComplete) {
-  //   let txn = {
-  //     txid: txid,
-  //     nonce: nonce,
-  //     fromAddress: address,
-  //     toAddress: to,
-  //     totalAmount: amount,
-  //     fees: fees,
-  //   };
-
-  //    const newTxn = JSON.stringify(txn);
-  //    fs.writeFile('transaction.json', newTxn, (err: any) => {
-  //     // error checking
-  //     if(err) throw err;
-
-  //     // console.log("New data added");
-  // });
-}
-// }
-
+  
+  //   if (transferComplete) {
+  //     let txn = {
+  //       txid: txid,
+  //       nonce: nonce,
+  //       fromAddress: address,
+  //       toAddress: to,
+  //       totalAmount: amount,
+  //       fees: fees,
+  //     };
+  
+  //      const newTxn = JSON.stringify(txn);
+  //      fs.writeFile('transaction.json', newTxn, (err: any) => {
+  //       // error checking
+  //       if(err) throw err;
+  
+  //       // console.log("New data added");
+  //   });
+  // }
+  }
 isValidTransaction(SignedTransactionData);
