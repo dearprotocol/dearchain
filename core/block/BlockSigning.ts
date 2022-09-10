@@ -20,7 +20,7 @@ import { RawTransaction } from "../../interfaces/Transaction";
 let walletAddr:any[] =[]
 
 
-function signBlock (
+export function signBlock (
   nonce: number,
   blockNumber: number,
   validator: string,
