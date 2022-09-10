@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import "./emit.ts"
 import { signBlock } from "../core/block/BlockSigning";
+import { isValidTransaction } from "../core/transaction/TransactionValidation";
 
 
 
@@ -72,7 +73,10 @@ wsServer.on('request', function(request:any) {
     connection.on('message', function(message:any) {
         if (message.type === 'utf8') {
             console.log("msg", message);
-            
+            let data = message.utf8Data;
+            if(data.method=="sendTransaction"){
+                isValidTransaction(data.rawTransaction);
+            }
             console.log('Received Message: ' + message.utf8Data);
             connection.sendUTF(message.utf8Data);
         }

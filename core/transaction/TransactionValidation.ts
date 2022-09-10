@@ -179,7 +179,8 @@ function updateTransfer(transaction: RawTransaction, txData: string,signedData:s
       const transferComplete = true;
     });
     console.log('id',transaction);
-    
+    emitWss(JSON.stringify({event_name: "transaction submitted", transactionHash:txid}))
+
     TransactionPoolDB.txData[txid] = signedData
     console.log("txpoolDB",TransactionPoolDB);
   }
