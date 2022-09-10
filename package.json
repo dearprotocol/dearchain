@@ -10,7 +10,8 @@
     "dev-test": "nodemon ./core/transaction/TransactionValidation.ts",
     "sign:dev-test": "nodemon ./core/transaction/TransactionSigning.ts",
     "block-test": "nodemon ./core/block/BlockSigning.ts",
-    "valid-block-test": "nodemon ./core/block/BlockValidation.ts"
+    "valid-block-test": "nodemon ./core/block/BlockValidation.ts",
+    "serve": "nodemon --exec ts-node ./p2p/server.ts"
   },
   "author": "",
   "license": "ISC",

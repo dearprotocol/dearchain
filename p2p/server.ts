@@ -2,6 +2,7 @@ import { connections } from "../packages/db/memory/wss";
 import * as fs from "fs";
 import * as path from "path";
 import "./emit.ts"
+import { signBlock } from "../core/block/BlockSigning";
 
 
 
@@ -15,6 +16,7 @@ var server = http.createServer(function(request:any, response:any) {
     response.end();
 });
 server.listen(8080, function() {
+    
     console.log((new Date()) + ' Server is listening on port 8080');
 });
 console.log("hi")
@@ -44,6 +46,15 @@ const replacerFunc = () => {
       return value;
     };
 };
+
+// Block Pipeline
+
+signBlock(
+    1,
+    4042,
+    "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",
+    "0x1"
+);
 
 wsServer.on('request', function(request:any) {
     // if (!originIsAllowed(request.origin)) {

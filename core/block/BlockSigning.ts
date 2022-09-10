@@ -20,7 +20,7 @@ import { RawTransaction } from "../../interfaces/Transaction";
 let walletAddr:any[] =[]
 
 
-const signBlock = async(
+export const signBlock = async(
   nonce: number,
   blockNumber: number,
   validator: string,
@@ -39,8 +39,7 @@ const signBlock = async(
 
       temp = [...new Set(walletAddr)]
       console.log("unqiue wallet 1",temp)
-
-      
+      console.log("unqiue wallet 2",walletAddr)
     }
 
 
