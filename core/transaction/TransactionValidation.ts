@@ -156,21 +156,20 @@ function updateTransfer(transaction: RawTransaction, txData: string,signedData:s
     console.log("transactions ", transaction)
     transaction.tokenTransfer?.forEach((token, i) => {
       let nonce = 1;
-      const totalAmount = BigNumber(token.amount).plus(transaction.feesOffered);
-      // console.log(totalAmount.toFixed());
-
+      const totalAmount = BigNumber(token.amount);
+      const fees = transaction.feesOffered
+      const tokenID = token.tokenId     
       const newBalance = BigNumber(
         AddressDB[transaction.from].balance[token.tokenId]
       ).minus(totalAmount);
-      // console.log("newBalance", newBalance.toFixed());
+
       const address = transaction.from;
 
-      // updatebalance(address, newBalance, "USDT", true); ///
+      updatebalance(address, newBalance,tokenID , true, fees); ///
 
       const toAddress = token.to;
       let toBalance = BigNumber(token.amount);
 
-      // console.log("tokenID ", AddressDB[token.tokenId])
       console.log(token.to)
       if (AddressDB[token.tokenId] && AddressDB[token.to].balance[token.tokenId] != undefined) {
         toBalance = BigNumber(AddressDB[token.to].balance[token.tokenId]).plus(
@@ -178,17 +177,19 @@ function updateTransfer(transaction: RawTransaction, txData: string,signedData:s
         );
       }
 
+      console.log("addDB",AddressDB);
       
+      // updatebalance(toAddress, toBalance, "DEAR", true);
 
-      updatebalance(toAddress, toBalance, "USDT", true);
-
-      console.log("check Balance", AddressDB)
       const transferComplete = true;
     });
-    
+    console.log('id',transaction);
+    emitWss(JSON.stringify({event_name: "transaction submitted", transactionHash:txid}))
+
     TransactionPoolDB.txData[txid] = signedData
     // console.log("txpoolDB",TransactionPoolDB);
   }
+  
   
   //   if (transferComplete) {
   //     let txn = {
@@ -209,4 +210,4 @@ function updateTransfer(transaction: RawTransaction, txData: string,signedData:s
   //   });
   // }
   }
-isValidTransaction(SignedTransactionData);
+//isValidTransaction(SignedTransactionData);

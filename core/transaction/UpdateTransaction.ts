@@ -7,7 +7,7 @@ export function updatebalance(
   address: string,
   newBalance: BigNumber,
   asset: string,
-  nonceIncrement: boolean
+  nonceIncrement: boolean,fees:number
 ) {
   if (AddressDB[address] !== undefined) {
     // Address Does Exist
@@ -24,6 +24,8 @@ export function updatebalance(
 
     AddressDB[address].balance[asset] = newBalance.toFixed(8);
 
+    updateFees(address,fees)
+
     console.log(AddressDB)
 
   } else {
@@ -39,4 +41,19 @@ export function updatebalance(
 
     // return false;
   }
+}
+
+
+function updateFees(address:string,fees:number){
+
+console.log(fees);
+
+const minusFees = BigNumber(AddressDB[address].balance["DEAR"]).minus(fees)
+
+AddressDB[address].balance["DEAR"] = minusFees.toFixed()
+
+
+console.log("fees deducted",minusFees)
+
+
 }

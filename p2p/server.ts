@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import "./emit.ts"
 import { signBlock } from "../core/block/BlockSigning";
+import { isValidTransaction } from "../core/transaction/TransactionValidation";
 
 
 
@@ -49,12 +50,12 @@ const replacerFunc = () => {
 
 // Block Pipeline
 
-setInterval(() =>{signBlock(
-    1,
-    4042,
-    "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",
-    "0x1"
-)},10000);
+// setInterval(() =>{signBlock(
+//     1,
+//     4042,
+//     "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",
+//     "0x1"
+// )},10000);
 
 wsServer.on('request', function(request:any) {
     // if (!originIsAllowed(request.origin)) {
@@ -71,8 +72,14 @@ wsServer.on('request', function(request:any) {
     // fs.writeFileSync(path.join(__dirname,'connections.json'),JSON.stringify(connection,replacerFunc()))
     connection.on('message', function(message:any) {
         if (message.type === 'utf8') {
-            console.log('Received Message: ' + message.utf8Data);
-            connection.sendUTF(message.utf8Data);
+            console.log("msg", message);
+            let data =JSON.parse(message.utf8Data);
+            console.log("method",data.method,data);
+            if(data.method=="sendTransaction"){
+                isValidTransaction(data.rawTransaction);
+            }
+            // console.log('Received Message: ' + message.utf8Data);
+            // connection.sendUTF(message.utf8Data);
         }
         else if (message.type === 'binary') {
             console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
@@ -83,4 +90,3 @@ wsServer.on('request', function(request:any) {
         console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
     });
 });
-// setInterval(() =>{console.log("connection",connections)},10000)
