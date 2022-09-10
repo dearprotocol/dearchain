@@ -11,45 +11,53 @@ import { createBlock } from "./Block";
 import { TransactionPoolDB } from "../../packages/db/memory/transactionpool";
 import {
   isValidTransaction,
+  validateSignature,
   validateTransfer,
 } from "../transaction/TransactionValidation";
 import { RawTransaction } from "../../interfaces/Transaction";
 
 
-let walletAddr:string[] =[]
+let walletAddr:any[] =[]
 
 
-function signBlock(
+const signBlock = async(
   nonce: number,
   blockNumber: number,
   validator: string,
   prevBlockHash: string
-) {
+)  =>{
   try {
 
-    let temp:string[] =[]
+    let temp:any[] =[]
+    
     const privatekey = Buffer.from(PRIVATE_KEY, "hex"); //VALIDATOR PRIVATE KEY
     let transactions: Array<TxPair> = [];
+    let uniqueWallet:any;
     for (let key in TransactionPoolDB.txData) {
 
-      let uniqueWallet = uniqueWalletTxn(TransactionPoolDB.txData[key]);
-
+      uniqueWallet = uniqueWalletTxn(TransactionPoolDB.txData[key]);
 
       temp = [...new Set(walletAddr)]
+      console.log("unqiue wallet 1",temp)
 
-      console.log(temp)
+      
+    }
 
-        if (isValidTransaction(TransactionPoolDB.txData[key])) {
-          if (temp == null) {
-            console.log("working");
-          transactions.push({
-            hash: key,
-            data: TransactionPoolDB.txData[key],
-          });
 
-          console.log(transactions)
-        }
+    for (let key in TransactionPoolDB.txData) {
+
+      if (isValidTransaction(TransactionPoolDB.txData[key])) {
+        if (temp) {
+        console.log("working"); 
+        transactions.push({
+          hash: key,
+          data: TransactionPoolDB.txData[key],
+        });
+
+      } 
+       
       }
+      
     }
 
     
