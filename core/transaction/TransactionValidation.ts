@@ -205,4 +205,4 @@ function updateTransfer(transaction: RawTransaction, txData: string,signedData:s
   //   });
   // }
   }
-isValidTransaction(SignedTransactionData);
+//isValidTransaction(SignedTransactionData);

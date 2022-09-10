@@ -31,7 +31,7 @@ client.on('connect', function(connection:any) {
     function sendTransaction(){
         connection.sendUTF(JSON.stringify({"method": "sendTransaction", "rawTransaction": SignedTransactionData}))
     }
-    // sendTransaction()
+    sendTransaction()
 });
 
 client.connect('ws://localhost:8080/', 'echo-protocol');

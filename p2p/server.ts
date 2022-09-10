@@ -73,12 +73,13 @@ wsServer.on('request', function(request:any) {
     connection.on('message', function(message:any) {
         if (message.type === 'utf8') {
             console.log("msg", message);
-            let data = message.utf8Data;
+            let data =JSON.parse(message.utf8Data);
+            console.log("method",data.method,data);
             if(data.method=="sendTransaction"){
                 isValidTransaction(data.rawTransaction);
             }
-            console.log('Received Message: ' + message.utf8Data);
-            connection.sendUTF(message.utf8Data);
+            // console.log('Received Message: ' + message.utf8Data);
+            // connection.sendUTF(message.utf8Data);
         }
         else if (message.type === 'binary') {
             console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
@@ -89,4 +90,3 @@ wsServer.on('request', function(request:any) {
         console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
     });
 });
-// setInterval(() =>{console.log("connection",connections)},10000)

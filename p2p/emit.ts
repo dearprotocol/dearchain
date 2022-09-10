@@ -2,7 +2,6 @@ import {connections} from "../packages/db/memory/wss";
 
 // Hosts a Serv
 export async function emitWss(data:string){
-    console.log("connections",connections);
     for(let connection of connections){
         connection.sendUTF(data)
     }
