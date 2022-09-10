@@ -134,6 +134,11 @@ function feesCheckBalance(txn: RawTransaction) {
         return false;
       }
     }
+
+    else if(token.tokenId == "USDT" &&
+    AddressDB[txn.from]?.balance[token.tokenId] != undefined){
+
+    }
   });
 
   return fees;
