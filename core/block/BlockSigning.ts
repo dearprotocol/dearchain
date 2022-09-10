@@ -20,12 +20,12 @@ import { RawTransaction } from "../../interfaces/Transaction";
 let walletAddr:any[] =[]
 
 
-const signBlock = async(
+function signBlock (
   nonce: number,
   blockNumber: number,
   validator: string,
   prevBlockHash: string
-)  =>{
+){
   try {
 
     let temp:any[] =[]
