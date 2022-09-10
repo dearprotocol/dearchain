@@ -7,7 +7,7 @@
     "test": "jest",
     "run": "echo \"Error: no test specified\" && exit 1",
     "validate": "echo \"Error: no test specified\" && exit 1",
-    "dev-test": "nodemon ./core/transaction/TransactionValidation.ts",
+    "dev-test": "nodemon --exec ts-node ./core/transaction/TransactionValidation.ts",
     "sign:dev-test": "nodemon ./core/transaction/TransactionSigning.ts",
     "block-test": "nodemon ./core/block/BlockSigning.ts",
     "valid-block-test": "nodemon ./core/block/BlockValidation.ts",
