@@ -176,9 +176,10 @@ function updateTransfer(transaction: RawTransaction, txData: string) {
       // console.log("check Balance", AddressDB)
       const transferComplete = true;
     });
+    console.log('id',transaction);
     
     TransactionPoolDB.txData[txid] = transaction.toString()
-    console.log("txpoolDB",TransactionPoolDB);
+    console.log("txpoolDB",TransactionPoolDB.txData);
   }
   
   //   if (transferComplete) {
