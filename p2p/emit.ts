@@ -1,14 +1,14 @@
 import {connections} from "../packages/db/memory/wss";
 
 // Hosts a Serv
-async function send(data:string){
+export async function emitWss(data:string){
     console.log("connections",connections);
     for(let connection of connections){
         connection.sendUTF(data)
     }
 }
 setInterval(() =>{
-     send("hi");
+     emitWss("hi");
 }, 5000)
 
 
