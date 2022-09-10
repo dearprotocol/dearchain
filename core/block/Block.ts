@@ -33,7 +33,7 @@ export function createBlock(
   const blockHash = calculateHash(blockData.toString("hex"));
   
   // console.log("BlockHash: ",blockHash)
-  emitWss(JSON.stringify({event_name: "Block_Added", blockNumber,blockHash}))
+  emitWss(JSON.stringify({event_name: "Block_Added", blockNumber,blockHash,blockData}))
 
   return {
     blockData: blockData,
