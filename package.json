@@ -9,6 +9,8 @@
     "validate": "echo \"Error: no test specified\" && exit 1",
     "dev-test": "nodemon --exec ts-node ./core/transaction/TransactionValidation.ts",
     "sign:dev-test": "nodemon ./core/transaction/TransactionSigning.ts",
+    "address:generate": "nodemon --exec ts-node ./core/generateAddress.ts",
+    "deligate:start": "nodemon --exec ts-node ./core/deligator/index.ts",
     "block-test": "nodemon ./core/block/BlockSigning.ts",
     "valid-block-test": "nodemon ./core/block/BlockValidation.ts",
     "serve": "nodemon --exec ts-node ./p2p/server.ts"
@@ -26,7 +28,6 @@
     "npm": "^8.19.1",
     "secp256k1": "^4.0.3",
     "sha3": "^2.1.4",
-    "ts-jest": "28.0.8",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.4",
     "websocket": "^1.0.34"
