@@ -15,7 +15,10 @@ const deligators:Array<string> = JSON.parse(genesisFileConntent).deligators
 // console.log('Deligators:',deligators);
 const Slot = 2;
 const epochSize = JSON.parse(genesisFileConntent).epoch;
-
+let validators = {
+    "a":"100",
+    "b":"101",
+}
 function start(address:string,privateKey:string,rpc:string){
     let RPC_Deligators:Array<string> = [];
     if(deligators.includes(address) || RPC_Deligators.includes(address)){
