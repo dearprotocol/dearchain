@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { getBalance } from './modules/address/getBalance';
 import { getNonce } from './modules/address/getNonce';
+import { getTransactionCount } from './modules/address/getTransactionCount';
 const app = express();
 interface iMethods {
     [key:string]:any
@@ -11,6 +12,7 @@ interface iMethods {
 const methods:iMethods={
     "getbalance":getBalance,
     "getnonce":getNonce,
+    "gettransactioncount": getTransactionCount,
 }
 
 app.use(express.json())
