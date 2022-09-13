@@ -4,11 +4,13 @@ import {connections} from "../packages/db/memory/wss";
 export async function emitWss(data:string){
     for(let connection of connections){
         connection.sendUTF(data)
+        console.log(connection)
     }
+    
 }
-setInterval(() =>{
-     emitWss("hi");
-}, 5000)
+// setInterval(() =>{
+//      emitWss("hi");
+// }, 5000)
 
 
 // BLOCK ADDED

@@ -13,7 +13,9 @@
     "deligate:start": "nodemon --exec ts-node ./core/deligator/index.ts",
     "block-test": "nodemon ./core/block/BlockSigning.ts",
     "valid-block-test": "nodemon ./core/block/BlockValidation.ts",
-    "serve": "nodemon --exec ts-node ./p2p/server.ts"
+    "serve": "nodemon --exec ts-node ./p2p/server.ts",
+    "client": "nodemon --exec ts-node ./p2p/client.ts",
+    "deligator": "nodemon --exec ts-node ./core/deligator/index.ts"
   },
   "author": "",
   "license": "ISC",
