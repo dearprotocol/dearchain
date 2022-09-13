@@ -32,7 +32,7 @@ const epochSize = JSON.parse(genesisFileConntent).epoch;
 // let lastValidator: any;
 let deligator: any;
  //math.floor(blocknumber/epoch) == slot number 
-let newValidator: any;
+let lastValidator: any;
 let newPickedValidator:any;
 
 function randValidator(validators: any) {
@@ -57,13 +57,13 @@ export function assignValidator() {
 
     
 
-    newValidator = randValidator(validators);
+    lastValidator = randValidator(validators);
 
 
-    console.log("new validator ",newValidator)
+    console.log("new validator ",lastValidator)
 
-  if (deligator != newValidator) {
-    deligator = newValidator;
+  if (deligator != lastValidator) {
+    deligator = lastValidator;
   }
   console.log("Deligator",deligator) //will pick random validator excluding him
   //blocktime limit //validator picked // blocknumber  
@@ -87,9 +87,7 @@ export function assignValidator() {
   emitWss(JSON.stringify({event_name: "New Picked Validator by Deligator", newPickedValidator}))
   console.log("New Picked Validator by Deligator  : "+ newPickedValidator)
 //   console.log("Last Validator : "+lastValidator)
-
-
-return {newPickedValidator}
+  return {newPickedValidator,lastValidator,deligator};
 }
 
 function start(address: string, privateKey: string, rpc: string) {

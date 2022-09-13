@@ -109,5 +109,5 @@ export const signTransaction = (
   }
 };
 
-console.log(signTransaction(from, to,5,"3")?.rawTransaction);
+// console.log(signTransaction(from, to,5,"3")?.rawTransaction);
 // signTransaction(from, to, 5,"14")?.rawTransaction

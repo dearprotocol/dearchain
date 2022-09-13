@@ -22,7 +22,7 @@ let walletAddr:any[] =[]
 
 export function signBlock (
   nonce: number,
-  blockNumber: number,
+  blockNumber: string,
   validator: string,
   prevBlockHash: string
 ){
@@ -101,7 +101,7 @@ export function signBlock (
       blockRecid +
       newBlock.blockData.toString("hex");
 
-    console.log("Block Transaction : ", rawBlockData);
+    // console.log("Block Transaction : ", rawBlockData);
 
     return {
       signature: convertToHex(blockSignature.signature),
@@ -141,12 +141,12 @@ let signature = txnData.slice(0, 128);
 }
 // createBlock(1,[],4042,"f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b","0x1")
 
-signBlock(
-  1,
-  4042,
-  "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",
-  "0x1"
-);
+// signBlock(
+//   1,
+//   "4042",
+//   "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",
+//   "0x1"
+// );
 
 export interface TxPair {
   hash: string;

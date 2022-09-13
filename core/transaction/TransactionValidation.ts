@@ -36,17 +36,13 @@ export const isValidTransaction = (signedData: string) => {
     let signature = signedData.slice(0, 128);
     let recId = signedData.slice(128, 130);
     let txData = signedData.slice(130, signedData.length);
-    // console.log(signature,recId,txData);
+
     let transaction: RawTransaction = JSON.parse(
       Buffer.from(txData, "hex").toString("ascii")
     );
-    // console.log(transaction);
-    // let balance = getBalance(transaction.from)
-    // console.log(transaction.nonce);
     const type = transaction.type;
     if (validateSignature(transaction, txData, signature, recId)) {
       //&& validateTransfer(transaction)
-      
 
       if (feesCheckBalance(transaction) && validateTransfer(transaction)) {
         switch (type) {
@@ -56,7 +52,7 @@ export const isValidTransaction = (signedData: string) => {
             //memory db transaction storage
             // updateState include txn id and transaction status
             //nonce +1
-            console.log("Transaction Successfully Added");
+            // console.log("Transaction Successfully Validated");
             break;
         }
         return true;
@@ -107,14 +103,7 @@ export function validateSignature(
     Buffer.from(txid, "hex")
   );
   let address = getAddress(convertToHex(recoveredPublicKey));
-  // console.log(
-  //   secp256k1.ecdsaVerify(
-  //     Buffer.from(signature, "hex"),
-  //     Buffer.from(txid, "hex"),
-  //     secp256k1.publicKeyCreate(Buffer.from(PRIVATE_KEY, "hex"))
-  //   )
-  // );
-  // console.log("Addr", convertToHex(address));
+
 
   return address;
 }
@@ -128,8 +117,9 @@ function feesCheckBalance(txn: RawTransaction) {
     //   AddressDB[txn.from]?.balance[token.tokenId] != undefined
     // ) {
     if (
-      token.tokenId == "USDT" || token.tokenId == "DEAR" &&
-      AddressDB[txn.from]?.balance[token.tokenId] != undefined
+      token.tokenId == "USDT" ||
+      (token.tokenId == "DEAR" &&
+        AddressDB[txn.from]?.balance[token.tokenId] != undefined)
     ) {
       if (
         BigNumber(token.amount)
@@ -186,13 +176,11 @@ function updateTransfer(
         );
       }
 
-     
-
       // updatebalance(toAddress, toBalance, "DEAR", true);
 
       const transferComplete = true;
     });
-    console.log("id", transaction);
+    // console.log("id", transaction);
     emitWss(
       JSON.stringify({
         event_name: "transaction submitted",
@@ -200,7 +188,7 @@ function updateTransfer(
       })
     );
 
-    console.log("addDB", AddressDB);
+    // console.log("addDB", AddressDB);
 
     TransactionPoolDB.txData[txid] = signedData;
     // console.log("txpoolDB",TransactionPoolDB);
@@ -230,7 +218,6 @@ function processTransaction(signedData: string[]) {
   //for Multiple Transaction
   if (signedData != null) {
     for (let i in signedData) {
-
       if (signedData[i].length > 130) {
         let signature = signedData[i].slice(0, 128);
         let recId = signedData[i].slice(128, 130);
@@ -240,17 +227,13 @@ function processTransaction(signedData: string[]) {
         );
         const type = transaction.type;
 
-        
-
         if (validateSignature(transaction, txData, signature, recId)) {
-          
           if (feesCheckBalance(transaction) && validateTransfer(transaction)) {
-            
             switch (type) {
               case "TRANSFER":
-                 updateTransfer(transaction, txData,signedData[i]);
+                updateTransfer(transaction, txData, signedData[i]);
                 console.log("Transaction Successfully Added");
-                // break;
+              // break;
             }
             // return true;
           }
@@ -260,9 +243,6 @@ function processTransaction(signedData: string[]) {
   }
 }
 
-
-
-
-processTransaction(SignedTransactionData);
+// processTransaction(SignedTransactionData);
 
 // isValidTransaction(SignedTransactionData);

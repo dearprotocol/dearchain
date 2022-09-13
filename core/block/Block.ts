@@ -10,10 +10,13 @@ import { emitWss } from "../../p2p/emit";
 export function createBlock(
   nonce: number,
   transactions: Array<TxPair>,
-  blockNumber: number,
+  blockNumber: string,
   validator: string,
-  prevBlockHash: string
+  prevBlockHash: string,
+
 ) {
+
+
   const newBlock: rawBlock = {
     nonce: nonce,
     transactions: transactions,
