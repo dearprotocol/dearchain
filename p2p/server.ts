@@ -4,6 +4,7 @@ import * as path from "path";
 import "./emit.ts"
 import { signBlock } from "../core/block/BlockSigning";
 import { isValidTransaction } from "../core/transaction/TransactionValidation";
+import { assignValidator } from "../core/deligator";
 
 
 
@@ -50,12 +51,15 @@ const replacerFunc = () => {
 
 // Block Pipeline
 
-// setInterval(() =>{signBlock(
-//     1,
-//     4042,
-//     "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",
-//     "0x1"
-// )},10000);
+setInterval(() =>{
+    let res = assignValidator()
+    console.log('Res', res);
+    signBlock(
+    1,
+    4042,
+    "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",
+    "0x1"
+)},10000);
 
 wsServer.on('request', function(request:any) {
     // if (!originIsAllowed(request.origin)) {

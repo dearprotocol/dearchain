@@ -53,7 +53,7 @@ function randValidator(validators: any) {
   return rand;
 }
 
-function assignValidator() {
+export function assignValidator() {
 
     
 
@@ -87,6 +87,9 @@ function assignValidator() {
   emitWss(JSON.stringify({event_name: "New Picked Validator by Deligator", newPickedValidator}))
   console.log("New Picked Validator by Deligator  : "+ newPickedValidator)
 //   console.log("Last Validator : "+lastValidator)
+
+
+return {newPickedValidator}
 }
 
 function start(address: string, privateKey: string, rpc: string) {
