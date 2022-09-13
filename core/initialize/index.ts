@@ -27,6 +27,8 @@ let hash:any ;
 let prevHash:any ;
 let blockData:any;
 
+let hexBlockNumber:string;
+
 function init() {
   const genesis = createGenesisBlock();
   const genesisHash = genesis.blockHash;
@@ -51,11 +53,16 @@ function init() {
     let blockInfo:any= isBlockValid(hash.rawTransaction)
     prevHash = hash.transactionHash
     blockData = blockInfo.blockdata
-    console.log("genesis",prevHash)
-    console.log("newblockNum",blockNum);
+    
     // console.log("blockdata",blockData)
     blockNum= blockNum +1
 
+
+
+    hexBlockNumber = blockNum.toString(16)
+
+    console.log("blockNumber",hexBlockNumber)
+    console.log("newblockNum",blockData);
       }
 
       else if(prevHash){
@@ -64,17 +71,18 @@ function init() {
         hash = signBlock(1,blockNum,"f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",prevHash);
 
         prevHash = hash.transactionHash
-        console.log("newblockHash",prevHash);
-        console.log("newblockHash",blockNum);
+
+        let blockInfo:any= isBlockValid(hash.rawTransaction)
+        blockData = blockInfo.blockdata
+       
         // console.log(hash.transactionHash)
         blockNum= blockNum +1
-
-
-
-        emitWss(JSON.stringify({event_name: "Block_Added", blockNumber,blockData}))
-        
+        hexBlockNumber = blockNum.toString(16)
+        console.log("blockNumber",hexBlockNumber)
+        // console.log("newblockNum",blockData);
+  
       }
-
+      emitWss(JSON.stringify({event_name: "Block_Added", hexBlockNumber,blockData}))
    
   }, 2000);
 
