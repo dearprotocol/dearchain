@@ -38,12 +38,6 @@ let newPickedValidator:any;
 function randValidator(validators: any) {
   let value = Object.keys(validators);
 
-//   let a = 0;
-//   let b = 0;
-//   let c = 0;
-//   let d = 0;
-//   let e = 0;
-
   let arr: string[] = [];
   for (let item in validators) {
     if (validators.hasOwnProperty(item)) {
@@ -55,41 +49,6 @@ function randValidator(validators: any) {
 
   let rand = arr[Math.floor(Math.random() * arr.length)];
 
-//   console.log(rand)
-// let rand:any
-  
-
-//   for(let i =1 ; i<=1000; i++){
-//      rand = arr[Math.floor(Math.random() * arr.length)]
-
-//       if(rand == 'a'){
-//           a += 1
-
-//       }
-//     else  if(rand == 'b'){
-//           b += 1
-
-//       }
-//       else  if(rand == 'c'){
-//           c += 1
-
-//       }
-//       else  if(rand == 'd'){
-//           d += 1
-
-//       }
-//       else  if(rand == 'e'){
-//           e += 1
-
-//       }
-
-//   }
-
-//   console.log("a",a)
-//   console.log("b",b)
-//   console.log("c",c)
-//   console.log("d",d)
-//   console.log("e",e)
 
   return rand;
 }
