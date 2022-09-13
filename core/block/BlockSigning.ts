@@ -22,7 +22,7 @@ let walletAddr:any[] =[]
 
 export function signBlock (
   nonce: number,
-  blockNumber: string,
+  blockNumber: number,
   validator: string,
   prevBlockHash: string
 ){

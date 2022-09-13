@@ -15,15 +15,14 @@ const genesisFileConntent = fs
   .readFileSync(path.join(process.cwd(), "core", "genesis.json"))
   .toString();
 const transactions: TxPair[] = JSON.parse(genesisFileConntent).transactions;
-const blockNumber: string = JSON.parse(genesisFileConntent).number;
+const blockNumber: number = JSON.parse(genesisFileConntent).number;
 const validator: string = JSON.parse(genesisFileConntent).validator;
 
 // const prevBlockHash:string = JSON.parse(genesisFileConntent).transactions;
 const timestamp = Date.now();
 
 //rvf //rtf extension name for transaction and validator data
-let bNum:number ;
-;
+let blockNum:number;
 let hash:any ;
 let prevHash:any ;
 let blockData:any;
@@ -32,22 +31,20 @@ function init() {
   const genesis = createGenesisBlock();
   const genesisHash = genesis.blockHash;
 
-//   console.log("Genesis Hash ", genesisHash)
-    
     
     let blockdata:any ;
-
-    // console.log("block",blockNum)
+    blockNum =1
+    console.log("block",blockNum)
     
     
-    let blockNum:string= (1).toString(16)  
+ 
 
 
   setInterval(() => {
 
-    if(blockNum == "1"  ) {
+    if(blockNum == 1  ) {
         
-        bNum = 1
+
 
       hash = signBlock(1,blockNum,"f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",genesisHash);
 
@@ -57,22 +54,22 @@ function init() {
     console.log("genesis",prevHash)
     console.log("newblockNum",blockNum);
     // console.log("blockdata",blockData)
-    // blockNum= +blockNum + +(1).toString(16)  
+    blockNum= blockNum +1
 
       }
 
       else if(prevHash){
         console.log("prevHash",prevHash);
-        blockNum = bNum.toString(16)
+       
         hash = signBlock(1,blockNum,"f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",prevHash);
 
         prevHash = hash.transactionHash
-        blockNum = blockNum+(1).toString(16)
         console.log("newblockHash",prevHash);
         console.log("newblockHash",blockNum);
         // console.log(hash.transactionHash)
+        blockNum= blockNum +1
 
-        // bNum = bNum + 1
+
 
         emitWss(JSON.stringify({event_name: "Block_Added", blockNumber,blockData}))
         

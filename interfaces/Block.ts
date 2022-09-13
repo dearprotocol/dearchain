@@ -21,7 +21,7 @@ export interface Block{
 export interface rawBlock{
     nonce:number,
     transactions: Array<TxPair>,
-    number:string,
+    number:number,
     validator:string,
     totalCollectedFees:number,
     feesBurnt:number,
