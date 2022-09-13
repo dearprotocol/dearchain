@@ -5,6 +5,7 @@ import "./emit.ts"
 import { signBlock } from "../core/block/BlockSigning";
 import { isValidTransaction } from "../core/transaction/TransactionValidation";
 import { assignValidator } from "../core/deligator";
+import { client } from "./client";
 
 
 
@@ -94,5 +95,6 @@ wsServer.on('request', function(request:any) {
     });
     connection.on('close', function(reasonCode:any, description:any) {
         console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
+        client()
     });
 });
