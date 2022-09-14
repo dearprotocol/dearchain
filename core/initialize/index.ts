@@ -29,14 +29,17 @@ let blockData:any;
 
 let hexBlockNumber:string;
 
-function init() {
+let signature:string;
+let recId:string;
+
+export function init() {
   const genesis = createGenesisBlock();
   const genesisHash = genesis.blockHash;
 
     
     let blockdata:any ;
     blockNum =1
-    console.log("block",blockNum)
+
     
     
  
@@ -61,30 +64,40 @@ function init() {
 
     hexBlockNumber = blockNum.toString(16)
 
-    console.log("blockNumber",hexBlockNumber)
-    console.log("newblockNum",blockData);
+    // console.log("blockNumber",hexBlockNumber)
+    // console.log("newblockNum",blockData);
       }
 
       else if(prevHash){
-        console.log("prevHash",prevHash);
+        // console.log("prevHash",prevHash);
        
         hash = signBlock(1,blockNum,"f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",prevHash);
 
         prevHash = hash.transactionHash
 
         let blockInfo:any= isBlockValid(hash.rawTransaction)
-        blockData = blockInfo.blockdata
+        blockData = blockInfo.blockdata;
+        signature = blockInfo.signature;
+        recId = blockInfo.recId;
        
         // console.log(hash.transactionHash)
         blockNum= blockNum +1
-        hexBlockNumber = blockNum.toString(16)
-        console.log("blockNumber",hexBlockNumber)
+        hexBlockNumber = blockNum.toString(16).padStart(64, "0") // decimal to hex with 64 len
+        // hexBlockNumber = 
+        
+
+        console.log(": ",hexBlockNumber,signature,recId,blockData)
         // console.log("newblockNum",blockData);
   
       }
-      emitWss(JSON.stringify({event_name: "Block_Added", hexBlockNumber,blockData}))
+      emitWss(JSON.stringify({event_name: "Block_Added", hexBlockNumber,signature,recId,blockData}))
+
+
+      appendData( hexBlockNumber,signature,recId,blockData);
+
+  
    
-  }, 2000);
+  }, 20000);
 
     
 }
@@ -112,4 +125,36 @@ function createGenesisBlock() {
   };
 }
 
-init();
+
+
+function appendData(hexBlockNumber:string,signature:string , recId:string ,blockData:string){
+  if (!fs.existsSync('generatedBlock.txt')) {
+
+    fs.closeSync(fs.openSync('generatedBlock.txt', 'w'));
+}
+
+const file = fs.readFileSync('generatedBlock.txt','utf-8')
+console.log(file);
+ let data ={ hexBlockNumber,signature ,recId,blockData}
+//  let data ={ hexBlockNumber}
+
+  const newData = JSON.stringify(data);
+ 
+
+
+  if (file.length == 0) {
+    fs.appendFile('generatedBlock.txt',newData, function (err) {
+      if (err) throw err;
+      // console.log('Updated!');
+    });
+} else {
+    fs.appendFile('generatedBlock.txt', newData, function (err) {
+      if (err) throw err;
+      // console.log('Updated!');
+    });
+    // fs.writeFileSync("generatedBlock.json", JSON.stringify(data))
+}
+
+
+}
+// init();
