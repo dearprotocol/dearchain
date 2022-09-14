@@ -5,15 +5,21 @@ import * as path from 'path';
 import { getBalance } from './modules/address/getBalance';
 import { getNonce } from './modules/address/getNonce';
 import { getTransactionCount } from './modules/address/getTransactionCount';
+import { sendSignedTransaction } from './modules/transaction/sendSignedTransaction';
 const app = express();
 interface iMethods {
     [key:string]:any
 }
+
+
 const methods:iMethods={
     "getbalance":getBalance,
     "getnonce":getNonce,
     "gettransactioncount": getTransactionCount,
+    "sendsignedtransaction" : sendSignedTransaction
 }
+
+
 
 app.use(express.json())
 app.use('/',(req,res,next)=>{
@@ -30,8 +36,10 @@ app.use('/',(req,res,next)=>{
         })
     }
 });
-let server = https.createServer({
-    key:fs.readFileSync(path.join(__dirname,'cert','key.pem')),
-    cert:fs.readFileSync(path.join(__dirname,'cert','cert.pem'))
-},app);
-server.listen(4434,()=>console.log("Secure 🚀 🔑JSON RPC Server 🚦🚦 Started.."))
+// let server = https.createServer({
+//     key:fs.readFileSync(path.join(__dirname,'cert','key.pem')),
+//     cert:fs.readFileSync(path.join(__dirname,'cert','cert.pem'))
+// },app);
+// server.listen(4434,()=>console.log("Secure 🚀 🔑JSON RPC Server 🚦🚦 Started.."))
+
+app.listen(8080,()=>{console.log("Server is Listening")});
