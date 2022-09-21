@@ -309,25 +309,51 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
+"@ethereumjs/common@^3.0.0-beta.3":
+  "integrity" "sha512-yHgMom5HFlAJIu8fmA1n0UvBnanhULfuNQAD+tT6ZR6sndLUz2Mc4eegF3Rby579lqJMAc/rpsToP7wA/i4R/w=="
+  "resolved" "https://registry.npmjs.org/@ethereumjs/common/-/common-3.0.0.tgz"
+  "version" "3.0.0"
+  dependencies:
+    "@ethereumjs/util" "^8.0.0"
+    "crc-32" "^1.2.0"
+
 "@ethereumjs/rlp@^4.0.0", "@ethereumjs/rlp@^4.0.0-beta.2":
   "integrity" "sha512-LM4jS5n33bJN60fM5EC8VeyhUgga6/DjCPBV2vWjnfVtobqtOiNC4SQ1MRFqyBSmJGGdB533JZWewyvlcdJtkQ=="
   "resolved" "https://registry.npmjs.org/@ethereumjs/rlp/-/rlp-4.0.0.tgz"
   "version" "4.0.0"
 
-"@ethereumjs/trie@^5.0.0":
-  "integrity" "sha512-BiFv9hQZighlp4445kfG65X+tc8eEfpP32RMKzCELmSvChpwmtuL8Xuxy+aTYWQEMjY6s4gAVLX/J48SW7gwQg=="
-  "resolved" "https://registry.npmjs.org/@ethereumjs/trie/-/trie-5.0.0.tgz"
-  "version" "5.0.0"
+"@ethereumjs/rlp@4.0.0-beta.3":
+  "integrity" "sha512-pvQqtxPJCn2vxm8AJtKUv7+IOqgOb5gf+4xhO5qcRDXzk6Ef/RX+g1xzA3Dss/wd/jV4nPN1jUGHjsIzhtp4EQ=="
+  "resolved" "https://registry.npmjs.org/@ethereumjs/rlp/-/rlp-4.0.0-beta.3.tgz"
+  "version" "4.0.0-beta.3"
+
+"@ethereumjs/trie@^5.0.0-beta.3":
+  "integrity" "sha512-3nznU0AzWAkOupqGPXTgDDtAuhL3hSaunZscDXJoxx+qIYw7qQPv6hoB4muE3UnfAuyrZ+ELnegWkigTt3Kfrw=="
+  "resolved" "https://registry.npmjs.org/@ethereumjs/trie/-/trie-5.0.0-beta.3.tgz"
+  "version" "5.0.0-beta.3"
   dependencies:
-    "@ethereumjs/rlp" "^4.0.0"
-    "@ethereumjs/util" "^8.0.0"
+    "@ethereumjs/common" "^3.0.0-beta.3"
+    "@ethereumjs/rlp" "4.0.0-beta.3"
+    "@ethereumjs/util" "8.0.0-beta.3"
+    "abstract-level" "^1.0.3"
     "ethereum-cryptography" "^1.1.2"
+    "level" "^8.0.0"
+    "memory-level" "^1.0.0"
     "readable-stream" "^3.6.0"
+    "semaphore-async-await" "^1.5.1"
 
 "@ethereumjs/util@^8.0.0":
   "integrity" "sha512-Zz/Ovar0VU/CaYHLvigBTjG5PmkG0OzjvRjjoXRJbJcdWJoTCN2N4BYgoCBOZomKjaAT4ABpQ7wer6ZFOglvjg=="
   "resolved" "https://registry.npmjs.org/@ethereumjs/util/-/util-8.0.0.tgz"
   "version" "8.0.0"
+  dependencies:
+    "@ethereumjs/rlp" "^4.0.0-beta.2"
+    "ethereum-cryptography" "^1.1.2"
+
+"@ethereumjs/util@8.0.0-beta.3":
+  "integrity" "sha512-aWGrrZgQ8yZW5wEHWVji71+goJYM+Z+XyDpVU1KaT56wJJE0qHEqhjULfiTS+VEl27YTc13/hO2HLSXeZ4YGww=="
+  "resolved" "https://registry.npmjs.org/@ethereumjs/util/-/util-8.0.0-beta.3.tgz"
+  "version" "8.0.0-beta.3"
   dependencies:
     "@ethereumjs/rlp" "^4.0.0-beta.2"
     "ethereum-cryptography" "^1.1.2"
@@ -1074,7 +1100,7 @@
   "resolved" "https://registry.npmjs.org/abbrev/-/abbrev-1.1.1.tgz"
   "version" "1.1.1"
 
-"abstract-level@^1.0.2":
+"abstract-level@^1.0.0", "abstract-level@^1.0.2", "abstract-level@^1.0.3":
   "integrity" "sha512-t6jv+xHy+VYwc4xqZMn2Pa9DjcdzvzZmQGRjTFc8spIbRGHgBrEKbPq+rYXc7CCo0lxgYvSgKVg9qZAhpVQSjA=="
   "resolved" "https://registry.npmjs.org/abstract-level/-/abstract-level-1.0.3.tgz"
   "version" "1.0.3"
@@ -1705,6 +1731,11 @@
   "resolved" "https://registry.npmjs.org/cookie/-/cookie-0.5.0.tgz"
   "version" "0.5.0"
 
+"crc-32@^1.2.0":
+  "integrity" "sha512-ROmzCKrTnOwybPcJApAA6WBWij23HVfGVNKqqrZpuyZOHqK2CwHSvpGuyt/UNNvaIjEd8X5IFGp4Mh+Ie1IHJQ=="
+  "resolved" "https://registry.npmjs.org/crc-32/-/crc-32-1.2.2.tgz"
+  "version" "1.2.2"
+
 "create-require@^1.1.0":
   "integrity" "sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ=="
   "resolved" "https://registry.npmjs.org/create-require/-/create-require-1.1.1.tgz"
@@ -2139,6 +2170,11 @@
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
   "resolved" "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz"
   "version" "1.1.1"
+
+"functional-red-black-tree@^1.0.1":
+  "integrity" "sha512-dsKNQNdj6xA3T+QlADDA7mOSlX0qiMINjn0cgr+eGHGsbSHzTabcIogz2+p/iqP1Xs6EP/sS2SbqH+brGTbq0g=="
+  "resolved" "https://registry.npmjs.org/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz"
+  "version" "1.0.1"
 
 "gauge@^4.0.3":
   "integrity" "sha512-f9m+BEN5jkg6a0fZjleidjN51VE1X+mPFQ2DJ0uv1V39oCLCbsGe6yjbBnp7eK7z/+GAon99a3nHuqbuuthyPg=="
@@ -3239,6 +3275,15 @@
   "resolved" "https://registry.npmjs.org/media-typer/-/media-typer-0.3.0.tgz"
   "version" "0.3.0"
 
+"memory-level@^1.0.0":
+  "integrity" "sha512-UXzwewuWeHBz5krr7EvehKcmLFNoXxGcvuYhC41tRnkrTbJohtS7kVn9akmgirtRygg+f7Yjsfi8Uu5SGSQ4Og=="
+  "resolved" "https://registry.npmjs.org/memory-level/-/memory-level-1.0.0.tgz"
+  "version" "1.0.0"
+  dependencies:
+    "abstract-level" "^1.0.0"
+    "functional-red-black-tree" "^1.0.1"
+    "module-error" "^1.0.1"
+
 "merge-descriptors@1.0.1":
   "integrity" "sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w=="
   "resolved" "https://registry.npmjs.org/merge-descriptors/-/merge-descriptors-1.0.1.tgz"
@@ -4183,6 +4228,11 @@
     "elliptic" "^6.5.4"
     "node-addon-api" "^2.0.0"
     "node-gyp-build" "^4.2.0"
+
+"semaphore-async-await@^1.5.1":
+  "integrity" "sha512-b/ptP11hETwYWpeilHXXQiV5UJNJl7ZWWooKRE5eBIYWoom6dZ0SluCIdCtKycsMtZgKWE01/qAw6jblw1YVhg=="
+  "resolved" "https://registry.npmjs.org/semaphore-async-await/-/semaphore-async-await-1.5.1.tgz"
+  "version" "1.5.1"
 
 "semver@^5.7.1":
   "integrity" "sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ=="

@@ -17,12 +17,15 @@
     "serve": " ts-node ./p2p/server.ts",
     "client": "nodemon --exec ts-node ./p2p/client.ts",
     "deligator": "nodemon --exec ts-node ./core/deligator/index.ts",
-    "init": "nodemon --exec ts-node ./core/initialize/index.ts"
+    "init": "nodemon --exec ts-node ./core/initialize/index.ts",
+    "trie": "nodemon --exec ts-node ./test/trie/trie.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ethereumjs/trie": "^5.0.0",
+    "@ethereumjs/rlp": "^4.0.0",
+    "@ethereumjs/trie": "^5.0.0-beta.3",
+    "@ethereumjs/util": "^8.0.0",
     "@types/mocha": "^9.1.1",
     "@types/websocket": "^1.0.5",
     "bignumber.js": "^9.1.0",

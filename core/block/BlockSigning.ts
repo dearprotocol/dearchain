@@ -7,6 +7,9 @@ import secp256k1 from "secp256k1";
 import { SHA3 } from "sha3";
 import { convertToHex, getAddress } from "../../packages/address/external";
 
+import { Trie, LevelDB } from '@ethereumjs/trie'
+import { Level } from 'level'
+
 import { createBlock } from "./Block";
 import { TransactionPoolDB } from "../../packages/db/memory/transactionpool";
 import {
@@ -15,6 +18,11 @@ import {
   validateTransfer,
 } from "../transaction/TransactionValidation";
 import { RawTransaction } from "../../interfaces/Transaction";
+import { testing } from "../../test/Trie/trie";
+
+
+const dearDB = new Level('DEARCHAIN_TRANSACTION_DB')
+// console.log('Empty trie root (Bytes): ', dearDB.root)
 
 
 let walletAddr:any[] =[]
@@ -48,10 +56,14 @@ export function signBlock (
               hash: key,
               data: TransactionPoolDB.txData[key],
             });
+
+            
     
           // } 
            
           }
+
+          storeDB(key,TransactionPoolDB.txData[key])
 
       
     }
@@ -141,12 +153,39 @@ let signature = txnData.slice(0, 128);
 }
 // createBlock(1,[],4042,"f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b","0x1")
 
-// signBlock(
-//   1,
-//   "4042",
-//   "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",
-//   "0x1"
-// );
+signBlock(
+  1,
+  4042,
+  "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",
+  "0x1"
+);
+
+
+async function storeDB(txnHash:string,txnData:string){
+
+if(txnHash && txnData){
+//   await dearDB.put(Buffer.from(txnHash), Buffer.from(txnData)) //key // value
+  // await dearDB.put(txnHash,txnData)
+}
+  
+  // let value:any= await dearDB.get(txnHash)
+  // console.log(value.toString()) // 'one'
+  // console.log('Trie root after deletion:', dearDB.root)
+
+  dearDB.get(txnHash, function(err, value) {    
+    if (err) {  
+      return console.log(err);  
+    }  
+    console.log('value:', value);  
+  });
+
+
+  // testing(txnHash)
+
+  
+
+}
+
 
 export interface TxPair {
   hash: string;

@@ -1,12 +1,17 @@
 import { Trie, LevelDB } from '@ethereumjs/trie'
 import { Level } from 'level'
+// const { Account, BN, bufferToHex, rlp } = require ('ethereumjs-util') ;
 
-const trie = new Trie({ db: new LevelDB(new Level('MY_TRIE_DB_LOCATION')) })
+const dearDB = new Level('DEARCHAIN_TRANSACTION_DB')
+export async function testing(txnHash:string) {
 
-async function test() {
-  await trie.put(Buffer.from('test'), Buffer.from('one'))
-  const value = await trie.get(Buffer.from('test'))
-  console.log(value.toString()) // 'one'
+
+  // let data = []
+
+  // let stream = dearDB.createReadStream()
+  // stream.on('end', function() {    
+  //   console.log('no more data');  
+  // });
 }
 
-test()
+// testing()
