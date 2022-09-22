@@ -18,7 +18,7 @@
     "client": "nodemon --exec ts-node ./p2p/client.ts",
     "deligator": "nodemon --exec ts-node ./core/deligator/index.ts",
     "init": "nodemon --exec ts-node ./core/initialize/index.ts",
-    "trie": "nodemon --exec ts-node ./test/trie/trie.ts"
+    "trie": "nodemon --exec ts-node ./test/Trie/trie.ts"
   },
   "author": "",
   "license": "ISC",
