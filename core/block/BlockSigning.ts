@@ -7,6 +7,8 @@ import secp256k1 from "secp256k1";
 import { SHA3 } from "sha3";
 import { convertToHex, getAddress } from "../../packages/address/external";
 
+
+
 import { createBlock } from "./Block";
 import { TransactionPoolDB } from "../../packages/db/memory/transactionpool";
 import {
@@ -15,6 +17,10 @@ import {
   validateTransfer,
 } from "../transaction/TransactionValidation";
 import { RawTransaction } from "../../interfaces/Transaction";
+// import { testing } from "../../test/Trie/trie";
+
+
+
 
 
 let walletAddr:any[] =[]
@@ -48,10 +54,14 @@ export function signBlock (
               hash: key,
               data: TransactionPoolDB.txData[key],
             });
+
+            
     
           // } 
            
           }
+
+          
 
       
     }
@@ -101,7 +111,7 @@ export function signBlock (
       blockRecid +
       newBlock.blockData.toString("hex");
 
-    console.log("Block Transaction : ", rawBlockData);
+    // console.log("Block Transaction : ", rawBlockData);
 
     return {
       signature: convertToHex(blockSignature.signature),
@@ -147,6 +157,10 @@ signBlock(
   "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",
   "0x1"
 );
+
+
+
+
 
 export interface TxPair {
   hash: string;

@@ -7,6 +7,11 @@ import { SHA3 } from "sha3";
 import { PRIVATE_KEY1 } from "../../Constant";
 import { RawTransaction } from "../../interfaces/Transaction";
 import { updatebalance } from "../transaction/UpdateTransaction";
+
+
+
+import { Trie, LevelDB } from '@ethereumjs/trie'
+import { Level } from 'level'
 import {
   convertTo64BaseBuffer,
   convertToHex,
@@ -15,13 +20,18 @@ import {
 import { AddressDB } from "../../packages/db/memory/address";
 import { emitWss } from "../../p2p/emit";
 import { TransactionPoolDB } from "../../packages/db/memory/transactionpool";
+
 // 122 + 2 + DATA
-// const SignedTransactionData = //for other token testing
-//   "1590304ebe4cff85a15635579fc062a25bf2826db283749207a8015d4593fdb96d70b23c07ed9a15ad59a3f8466e9552689cb9212e83fa473372d1507831b605017b226e6f6e6365223a2230222c22666565734f666665726564223a302e30322c2266726f6d223a226637383762373436393864643430313665646563383561393238343561373439366637343233613861656664646337303064313164643462222c2274797065223a225452414e53464552222c22746f6b656e5472616e73666572223a5b7b22746f6b656e4964223a2255534454222c22616d6f756e74223a352c22746f223a226337656635666433303039663030313963313737663362333838383365656635386565333035373232326631633764326131393464656435227d5d2c22657874726144617461223a22227d";
-const SignedTransactionData: string[] = [
-  "dd706df2495a07d09c68e67438b6fd0d3c6dc118757b5d93556136a627a91ae42bc7753ecd70e79d1e8b8fbfa2cd00fc41df88d3333c65abf562b67c802ef292007b226e6f6e6365223a2230222c22666565734f666665726564223a302e30322c2266726f6d223a226637383762373436393864643430313665646563383561393238343561373439366637343233613861656664646337303064313164643462222c2274797065223a225452414e53464552222c22746f6b656e5472616e73666572223a5b7b22746f6b656e4964223a2244454152222c22616d6f756e74223a352c22746f223a223461363830353037313430306166643365363164383266663962313133626233363733366239663332316364313036613466376235373130227d5d2c22657874726144617461223a22227d",
-  "1590304ebe4cff85a15635579fc062a25bf2826db283749207a8015d4593fdb96d70b23c07ed9a15ad59a3f8466e9552689cb9212e83fa473372d1507831b605017b226e6f6e6365223a2230222c22666565734f666665726564223a302e30322c2266726f6d223a226637383762373436393864643430313665646563383561393238343561373439366637343233613861656664646337303064313164643462222c2274797065223a225452414e53464552222c22746f6b656e5472616e73666572223a5b7b22746f6b656e4964223a2255534454222c22616d6f756e74223a352c22746f223a226337656635666433303039663030313963313737663362333838383365656635386565333035373232326631633764326131393464656435227d5d2c22657874726144617461223a22227d",
-];
+const SignedTransactionData = //for other token testing
+  "1590304ebe4cff85a15635579fc062a25bf2826db283749207a8015d4593fdb96d70b23c07ed9a15ad59a3f8466e9552689cb9212e83fa473372d1507831b605017b226e6f6e6365223a2230222c22666565734f666665726564223a302e30322c2266726f6d223a226637383762373436393864643430313665646563383561393238343561373439366637343233613861656664646337303064313164643462222c2274797065223a225452414e53464552222c22746f6b656e5472616e73666572223a5b7b22746f6b656e4964223a2255534454222c22616d6f756e74223a352c22746f223a226337656635666433303039663030313963313737663362333838383365656635386565333035373232326631633764326131393464656435227d5d2c22657874726144617461223a22227d";
+// const SignedTransactionData: string[] = [
+//   "dd706df2495a07d09c68e67438b6fd0d3c6dc118757b5d93556136a627a91ae42bc7753ecd70e79d1e8b8fbfa2cd00fc41df88d3333c65abf562b67c802ef292007b226e6f6e6365223a2230222c22666565734f666665726564223a302e30322c2266726f6d223a226637383762373436393864643430313665646563383561393238343561373439366637343233613861656664646337303064313164643462222c2274797065223a225452414e53464552222c22746f6b656e5472616e73666572223a5b7b22746f6b656e4964223a2244454152222c22616d6f756e74223a352c22746f223a223461363830353037313430306166643365363164383266663962313133626233363733366239663332316364313036613466376235373130227d5d2c22657874726144617461223a22227d",
+//   "1590304ebe4cff85a15635579fc062a25bf2826db283749207a8015d4593fdb96d70b23c07ed9a15ad59a3f8466e9552689cb9212e83fa473372d1507831b605017b226e6f6e6365223a2230222c22666565734f666665726564223a302e30322c2266726f6d223a226637383762373436393864643430313665646563383561393238343561373439366637343233613861656664646337303064313164643462222c2274797065223a225452414e53464552222c22746f6b656e5472616e73666572223a5b7b22746f6b656e4964223a2255534454222c22616d6f756e74223a352c22746f223a226337656635666433303039663030313963313737663362333838383365656635386565333035373232326631633764326131393464656435227d5d2c22657874726144617461223a22227d",
+// ];
+
+
+const dearDB = new Level('DEARCHAIN_TRANSACTION_DB')
+// console.log('Empty trie root (Bytes): ', dearDB.root)
 
 const calculateHash = (data: string): string => {
   const hash = new SHA3(256);
@@ -36,27 +46,31 @@ export const isValidTransaction = (signedData: string) => {
     let signature = signedData.slice(0, 128);
     let recId = signedData.slice(128, 130);
     let txData = signedData.slice(130, signedData.length);
-    // console.log(signature,recId,txData);
+
     let transaction: RawTransaction = JSON.parse(
       Buffer.from(txData, "hex").toString("ascii")
     );
-    // console.log(transaction);
-    // let balance = getBalance(transaction.from)
-    // console.log(transaction.nonce);
+
+    let txid:any = calculateHash(txData);
     const type = transaction.type;
     if (validateSignature(transaction, txData, signature, recId)) {
       //&& validateTransfer(transaction)
-      
 
       if (feesCheckBalance(transaction) && validateTransfer(transaction)) {
         switch (type) {
           case "TRANSFER":
-            // updateTransfer(transaction, txData,signedData);
 
+          // console.log(signedData)
+          storeDB(txid,signedData);
+
+            // 
+
+            // updateTransfer(transaction, txData,signedData);
             //memory db transaction storage
             // updateState include txn id and transaction status
             //nonce +1
-            console.log("Transaction Successfully Added");
+            // console.log("Transaction Successfully Validated");
+
             break;
         }
         return true;
@@ -107,14 +121,10 @@ export function validateSignature(
     Buffer.from(txid, "hex")
   );
   let address = getAddress(convertToHex(recoveredPublicKey));
-  // console.log(
-  //   secp256k1.ecdsaVerify(
-  //     Buffer.from(signature, "hex"),
-  //     Buffer.from(txid, "hex"),
-  //     secp256k1.publicKeyCreate(Buffer.from(PRIVATE_KEY, "hex"))
-  //   )
-  // );
-  // console.log("Addr", convertToHex(address));
+
+  // console.log(txid);
+ 
+
 
   return address;
 }
@@ -128,8 +138,9 @@ function feesCheckBalance(txn: RawTransaction) {
     //   AddressDB[txn.from]?.balance[token.tokenId] != undefined
     // ) {
     if (
-      token.tokenId == "USDT" || token.tokenId == "DEAR" &&
-      AddressDB[txn.from]?.balance[token.tokenId] != undefined
+      token.tokenId == "USDT" ||
+      (token.tokenId == "DEAR" &&
+        AddressDB[txn.from]?.balance[token.tokenId] != undefined)
     ) {
       if (
         BigNumber(token.amount)
@@ -186,13 +197,11 @@ function updateTransfer(
         );
       }
 
-     
-
       // updatebalance(toAddress, toBalance, "DEAR", true);
 
       const transferComplete = true;
     });
-    console.log("id", transaction);
+    // console.log("id", transaction);
     emitWss(
       JSON.stringify({
         event_name: "transaction submitted",
@@ -200,7 +209,7 @@ function updateTransfer(
       })
     );
 
-    console.log("addDB", AddressDB);
+    // console.log("addDB", AddressDB);
 
     TransactionPoolDB.txData[txid] = signedData;
     // console.log("txpoolDB",TransactionPoolDB);
@@ -230,7 +239,6 @@ function processTransaction(signedData: string[]) {
   //for Multiple Transaction
   if (signedData != null) {
     for (let i in signedData) {
-
       if (signedData[i].length > 130) {
         let signature = signedData[i].slice(0, 128);
         let recId = signedData[i].slice(128, 130);
@@ -240,17 +248,13 @@ function processTransaction(signedData: string[]) {
         );
         const type = transaction.type;
 
-        
-
         if (validateSignature(transaction, txData, signature, recId)) {
-          
           if (feesCheckBalance(transaction) && validateTransfer(transaction)) {
-            
             switch (type) {
               case "TRANSFER":
-                 updateTransfer(transaction, txData,signedData[i]);
+                updateTransfer(transaction, txData, signedData[i]);
                 console.log("Transaction Successfully Added");
-                // break;
+              // break;
             }
             // return true;
           }
@@ -260,9 +264,30 @@ function processTransaction(signedData: string[]) {
   }
 }
 
+export async function storeDB(txnHash:string,txnData:string){
+
+  // if(txnHash && txnData){
+  //   // await dearDB.put(Buffer.from(txnHash), Buffer.from(txnData)) //key // value
+  //   await dearDB.put(txnHash,txnData)
+  // }
+    
+    // console.log('Trie root after deletion:', dearDB.root)
+  
+    dearDB.get(txnHash, function(err, value) {    
+      if (err) {  
+        return console.log(err);  
+      }  
+      console.log("txnHash",txnHash)
+      console.log('value:', value);  
+    });
+  
+  
+    // testDB(txnHash)
+  
+  }
 
 
 
-processTransaction(SignedTransactionData);
+// processTransaction(SignedTransactionData);
 
-// isValidTransaction(SignedTransactionData);
+isValidTransaction(SignedTransactionData);

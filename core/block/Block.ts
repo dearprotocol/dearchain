@@ -12,8 +12,11 @@ export function createBlock(
   transactions: Array<TxPair>,
   blockNumber: number,
   validator: string,
-  prevBlockHash: string
+  prevBlockHash: string,
+
 ) {
+
+
   const newBlock: rawBlock = {
     nonce: nonce,
     transactions: transactions,
