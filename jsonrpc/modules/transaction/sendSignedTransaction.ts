@@ -37,9 +37,9 @@ export function sendSignedTransaction(txData:string[]){
 
 const txid = calculateHash(data);
 
-//    console.log("txdata",txData)
+    //    console.log("txdata",txData)
 
-    let transaction;
+    let transaction:any;
 
     //   console.log("transaction" , transaction.transactionHash);
 
@@ -55,9 +55,5 @@ const txid = calculateHash(data);
 
     }
   
-
     return {txid,...tx}
-
-
-
 }

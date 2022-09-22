@@ -6,6 +6,9 @@ import { signBlock, TxPair } from "../block/BlockSigning";
 import { calculateHash } from "../transaction/TransactionSigning";
 import { createBlock } from "../block/Block";
 import { isBlockValid } from "../block/BlockValidation";
+import { AddressDB } from "../../packages/db/memory/address";
+import BigNumber from "bignumber.js";
+import { BlocksDB, LastBlock } from "../../packages/db/memory/blocks";
 
 const genesisFileConntent = fs
   .readFileSync(path.join(process.cwd(), "core", "genesis.json"))
@@ -13,6 +16,7 @@ const genesisFileConntent = fs
 const transactions: TxPair[] = JSON.parse(genesisFileConntent).transactions;
 const blockNumber: number = JSON.parse(genesisFileConntent).number;
 const validator: string = JSON.parse(genesisFileConntent).validator;
+const alloc: any = JSON.parse(genesisFileConntent).alloc;
 
 // const prevBlockHash:string = JSON.parse(genesisFileConntent).transactions;
 const timestamp = Date.now();
@@ -28,7 +32,7 @@ let hexBlockNumber:string;
 let signature:string;
 let recId:string;
 
-export function init() {
+export function BlockEmit() {
   const genesis = createGenesisBlock();
   const genesisHash = genesis.blockHash;
 
@@ -112,6 +116,7 @@ function createGenesisBlock() {
   return {
     blockData: blockData,
     blockHash: blockHash,
+    blockNumber
   };
 }
 
@@ -142,8 +147,36 @@ console.log(file);
       if (err) throw err;
       // console.log('Updated!');
     });
-    // fs.writeFileSync("generatedBlock.json", JSON.stringify(data))
 }
 
 
+}
+
+
+export default function init(){
+  let data = createGenesisBlock();
+  // Memory DB
+    // Balance
+    for(let address in alloc){
+      AddressDB[address] = {
+        balance:{
+          "DEAR":BigNumber(alloc[address]).toFixed(8)
+        },
+        nonce:'0'
+      }
+      
+    }
+    // Validators
+      // {
+          // address=>stakedAmount
+      // }
+    // Blocks
+    BlocksDB[data.blockHash] = data.blockData.toString('hex');
+    LastBlock.data = data.blockData.toString('hex');
+    LastBlock.hash = data.blockHash;
+    LastBlock.number = data.blockNumber;
+  // StorageDB
+    // Block
+    // Address (Dump Complete AddressDB Obj)
+    // Validators
 }

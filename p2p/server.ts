@@ -6,7 +6,7 @@ import { signBlock } from "../core/block/BlockSigning";
 import { isValidTransaction } from "../core/transaction/TransactionValidation";
 import { assignValidator } from "../core/deligator";
 import { client } from "./client";
-import { init } from "../core/initialize";
+import { BlockEmit } from "../core/initialize";
 
 
 
@@ -66,7 +66,7 @@ const replacerFunc = () => {
 // },1000);
 function start(){
  let res = assignValidator()
-    let blockGenerate = init()
+    let blockGenerate = BlockEmit()
 }
 
 start();
@@ -84,20 +84,29 @@ wsServer.on('request', function(request:any) {
     connections.push(connection)
     // connections[0]=connection
     // fs.writeFileSync(path.join(__dirname,'connections.json'),JSON.stringify(connection,replacerFunc()))
+    
+    // data = {
+    //     event: "TX SUBMITTED",
+    //     data: ""
+    // }
+
     connection.on('message', function(message:any) {
         if (message.type === 'utf8') {
-            console.log("msg", message);
             let data =JSON.parse(message.utf8Data);
-            console.log("method",data.method,data);
-            if(data.method=="sendTransaction"){
-                isValidTransaction(data.rawTransaction);
+            switch(data.event){
+                case "BLOCK ADDED":
+                    blockAdded(data.data)
+                    break;
+
+                case "TX SUBMITTED":
+                    break;
+
+                case "VALID BLOCK":
+                    break;
             }
-            // console.log('Received Message: ' + message.utf8Data);
-            // connection.sendUTF(message.utf8Data);
         }
         else if (message.type === 'binary') {
-            console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
-            connection.sendBytes(message.binaryData);
+            // DO NOTHING
         }
     });
     connection.on('close', function(reasonCode:any, description:any) {

@@ -1,3 +1,5 @@
+import { connections } from "../packages/db/memory/wss";
+
 var WebSocketClient = require('websocket').client;
 
 export const client = () =>{
@@ -9,7 +11,10 @@ client.on('connectFailed', function(error:any) {
 });
 
 client.on('connect', function(connection:any) {
-    console.log('WebSocket Client Connected');
+    // console.log('WebSocket Client Connected');
+
+    connections.push(connection)
+
     connection.on('error', function(error:any) {
         console.log("Connection Error: " + error.toString());
     });
