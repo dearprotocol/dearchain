@@ -4,7 +4,7 @@ import { Level } from 'level'
 // const { Account, BN, bufferToHex, rlp } = require ('ethereumjs-util') ;
 
 const dearDB = new Level('DEARCHAIN_TRANSACTION_DB')
-const trie = new Trie({ db: new LevelDB(new Level('MY_TRIE_DB_LOCATION')) })
+// const trie = new Trie({ db: new LevelDB(new Level('MY_TRIE_DB_LOCATION')) })
 
 
 async function test() {
