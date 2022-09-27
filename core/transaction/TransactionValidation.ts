@@ -41,7 +41,7 @@ const calculateHash = (data: string): string => {
   return txn;
 };
 
-export const isValidTransaction = (signedData: string) => {
+export const isValidTransaction = async(signedData: string) => {
   if (signedData.length > 130) {
     let signature = signedData.slice(0, 128);
     let recId = signedData.slice(128, 130);
@@ -50,18 +50,23 @@ export const isValidTransaction = (signedData: string) => {
     let transaction: RawTransaction = JSON.parse(
       Buffer.from(txData, "hex").toString("ascii")
     );
+    // console.log(transaction)
+
 
     let txid:any = calculateHash(txData);
     const type = transaction.type;
+    // console.log(validateTransfer(transaction))
     if (validateSignature(transaction, txData, signature, recId)) {
       //&& validateTransfer(transaction)
 
-      if (feesCheckBalance(transaction) && validateTransfer(transaction)) {
+      // if (feesCheckBalance(transaction) && validateTransfer(transaction)) {
+       
         switch (type) {
           case "TRANSFER":
 
-          // console.log(signedData)
-          storeDB(txid,signedData);
+         
+         await storeDB(txid,signedData);
+          
 
             // 
 
@@ -74,7 +79,7 @@ export const isValidTransaction = (signedData: string) => {
             break;
         }
         return true;
-      }
+      // }
     }
     return false;
   }
@@ -83,7 +88,8 @@ export const isValidTransaction = (signedData: string) => {
 export function validateTransfer(txn: RawTransaction) {
   //   console.log("Hii");
 
-  let val;
+  let val :any ;
+  if(txn){
   txn.tokenTransfer?.forEach((token, i) => {
     // console.log(
     //   "Balance Available:",
@@ -91,6 +97,8 @@ export function validateTransfer(txn: RawTransaction) {
     // );
     val = validateBalance(txn.from, token.tokenId, token.amount);
   });
+
+}
 
   return val;
 }

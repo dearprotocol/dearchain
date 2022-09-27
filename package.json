@@ -19,7 +19,7 @@
     "deligator": "nodemon --exec ts-node ./core/deligator/index.ts",
     "init": "nodemon --exec ts-node ./core/initialize/index.ts",
     "trie": "nodemon --exec ts-node ./test/Trie/trie.ts",
-    "recieve": "nodemon --exec ts-node ./p2p/receive.ts"
+    "receive": "nodemon --exec ts-node ./p2p/receive.ts"
   },
   "author": "",
   "license": "ISC",
