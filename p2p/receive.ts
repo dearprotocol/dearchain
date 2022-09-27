@@ -10,7 +10,7 @@ export function blockAdded(data: any) {
     // data: <BLOCKNUMBER 64><SIGNATURE 128><RECID 2><BLOCKDATA REST>
     const rawBlockData = data;
     let number = (1).toString(16).padStart(64, "0") //static 
-    let blocknum =1
+    let blocknum=1
     console.log('number',number);
     let blockSignature = rawBlockData.slice(0, 128);
     let blockRecId = rawBlockData.slice(128, 130);
@@ -74,9 +74,19 @@ export function blockAdded(data: any) {
 }
 
 // TX SUBMITTED
+    // => VALidate
+    // TXPool => ADDED
+    // EMITT TX SUBMITTED
 
 // VALID BLOCK
+    // => CHECK LAST BLOCK
+    // => IF LAST BLOCK IS GREATER THEN REJECT
+    // => EMITT BLOCK 
 
-blockAdded(data)
+// PEER LIST => LATER
+    // Peer LIST
+    // 
+
+// blockAdded(data)
 
 

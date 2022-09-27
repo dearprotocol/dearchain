@@ -222,7 +222,7 @@ async function checkStorageDB(dbType: string, key: string, value: string) {
         // console.log("working",val)
       }
       else{
-      console.log("adding data")
+      // console.log("adding data")
         storageDB(key, data)
       }
     })
@@ -241,15 +241,15 @@ export async function storageDB(key: string, value: any) {
 
   if(dearDB.status == 'open'){
   if (key && value) {
-    console.log("Added")
+    // console.log("Added")
     await dearDB.put(key, value)
   }
 
 
-  dearDB.get(key, function (err,value){
-    console.log("key",key)
-    console.log("value",value);
-  })
+  // dearDB.get(key, function (err,value){
+  //   console.log("key",key)
+  //   console.log("value",value);
+  // })
 
 }
 
