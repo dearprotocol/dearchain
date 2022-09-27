@@ -170,7 +170,7 @@ export default function init() {
   LastBlock.data = data.blockData.toString('hex');
   LastBlock.hash = data.blockHash;
   LastBlock.number = data.blockNumber;
-  storageDB(data.blockHash,BlocksDB[data.blockHash])
+  storageDB(data.blockHash,BlocksDB[data.blockHash]) //store block data
 
   // console.log(BlocksDB)
  // Block =-----------------------------------------------
