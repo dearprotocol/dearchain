@@ -5,8 +5,9 @@ import "./emit.ts"
 import { signBlock } from "../core/block/BlockSigning";
 import { isValidTransaction } from "../core/transaction/TransactionValidation";
 import { assignValidator } from "../core/deligator";
-import { client } from "./client";
+// import { client } from "./client";
 import { BlockEmit } from "../core/initialize";
+import { blockAdded } from "./receive";
 
 
 
@@ -111,6 +112,6 @@ wsServer.on('request', function(request:any) {
     });
     connection.on('close', function(reasonCode:any, description:any) {
         console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
-        client()
+        // If its server we are not going to do reconnection
     });
 });
