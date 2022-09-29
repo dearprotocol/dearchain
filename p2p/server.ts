@@ -7,7 +7,7 @@ import { isValidTransaction } from "../core/transaction/TransactionValidation";
 import { assignValidator } from "../core/deligator";
 // import { client } from "./client";
 import { BlockEmit } from "../core/initialize";
-import { blockAdded } from "./receive";
+import { blockAdded,blockSubmit,txnSubmit } from "./receive";
 
 
 
@@ -24,7 +24,7 @@ server.listen(8080, function() {
     
     console.log((new Date()) + ' Server is listening on port 8080');
 });
-console.log("hi")
+// console.log("hi")
 const wsServer = new WebSocketServer({
     httpServer: server,
     // You should not use autoAcceptConnections for production
@@ -66,11 +66,12 @@ const replacerFunc = () => {
 //     // )
 // },1000);
 function start(){
- let res = assignValidator()
-    let blockGenerate = BlockEmit()
+//  let res = assignValidator()
+    // let blockGenerate = BlockEmit()
+    
 }
 
-start();
+
 
 wsServer.on('request', function(request:any) {
     // if (!originIsAllowed(request.origin)) {
@@ -83,6 +84,10 @@ wsServer.on('request', function(request:any) {
     var connection = request.accept('echo-protocol', request.origin);
     console.log((new Date()) + ' Connection accepted.');
     connections.push(connection)
+    console.log("connection ", connection.remoteAddresses)
+
+    // console.log("DB",connections)
+   
     // connections[0]=connection
     // fs.writeFileSync(path.join(__dirname,'connections.json'),JSON.stringify(connection,replacerFunc()))
     
@@ -96,13 +101,15 @@ wsServer.on('request', function(request:any) {
             let data =JSON.parse(message.utf8Data);
             switch(data.event){
                 case "BLOCK ADDED":
-                    blockAdded(data.data)
+                    // blockAdded(data.data)
                     break;
 
                 case "TX SUBMITTED":
+                    // txnSubmit()
                     break;
 
                 case "VALID BLOCK":
+                    // blockSubmit
                     break;
             }
         }
@@ -115,3 +122,5 @@ wsServer.on('request', function(request:any) {
         // If its server we are not going to do reconnection
     });
 });
+
+

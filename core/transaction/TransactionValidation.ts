@@ -41,7 +41,7 @@ const calculateHash = (data: string): string => {
   return txn;
 };
 
-export const isValidTransaction = async(signedData: string) => {
+export const isValidTransaction = (signedData: string) => {
   if (signedData.length > 130) {
     let signature = signedData.slice(0, 128);
     let recId = signedData.slice(128, 130);
@@ -65,7 +65,7 @@ export const isValidTransaction = async(signedData: string) => {
           case "TRANSFER":
 
          
-         await storeDB(txid,signedData);
+        storeDB(txid,signedData);
           
 
             // 

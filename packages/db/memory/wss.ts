@@ -1,1 +1,1 @@
-export let connections:any=[]
+export let connections:any=[] //address host ip // port and key 

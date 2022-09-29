@@ -1,3 +1,5 @@
+import { signBlock } from "../core/block/BlockSigning";
+import { isBlockValid } from "../core/block/BlockValidation";
 import { calculateHash, signTransaction } from "../core/transaction/TransactionSigning";
 import { isValidTransaction } from "../core/transaction/TransactionValidation";
 import { convertToHex } from "../packages/address/external";
@@ -84,19 +86,20 @@ export function blockAdded(data: any) {
     // TXPool => ADDED
     // EMITT TX SUBMITTED
 
-function txnSubmit(){
+export function txnSubmit(){
 
-    const txn = signTransaction(from, to, 5,"14")
-
+    let txn:any= signTransaction(from, to, 5,"14")
+    console.log(txn)
+    let txnHash:any = txn.transactionHash
+    let txnData:any = txn.rawTransaction
     if(txn){
 
-        if(txn.rawTransaction){
+        if(txnData){
             // TransactionPoolDB[] // validate transafer will return false addressDB balance memory db is empty 
             // console.log(txn.rawTransaction)
-            isValidTransaction(txn.rawTransaction)
+            isValidTransaction(txnData)
 
-            let txnHash = txn.transactionHash
-            let txnData = txn.rawTransaction
+           
 
             emitWss(
                 JSON.stringify({
@@ -120,12 +123,67 @@ function txnSubmit(){
     // => IF LAST BLOCK IS GREATER THEN REJECT
     // => EMITT BLOCK 
 
+
+
+  export  function blockSubmit(){
+
+        let block:any = signBlock(
+            1,
+            4042,
+            "f787b74698dd4016edec85a92845a7496f7423a8aefddc700d11dd4b",
+            "0x1"
+          );
+          let rawBlockData = block.rawTransaction
+
+         
+          let blockTxnData:any = rawBlockData.slice(130, rawBlockData.length);
+          let blockData: any = JSON.parse(
+            Buffer.from(blockTxnData, "hex").toString("ascii")
+          );
+
+          console.log("block",blockData.number)
+
+          if(LastBlock.number < blockData.number){
+
+            if(block.rawTransaction){
+
+                isBlockValid(block.rawTransaction)
+                let txnHash = block.transactionHash
+                let txnData = block.rawTransaction
+
+                emitWss(
+                    JSON.stringify({
+                      event_name: "transaction submitted",
+                      blockHash: txnHash,
+                      blockData:txnData
+                      
+                    })
+                  );
+                
+
+            }
+          }
+
+
+
+    }
+
 // PEER LIST => LATER
-    // Peer LIST
+  
     // 
+
+function peerList(){
+
+
+  // Peer LIST
+
+
+}
+
 
 // blockAdded(data)
 
-txnSubmit();
+// txnSubmit();
+// blockSubmit();
 
 
