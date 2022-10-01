@@ -1,7 +1,7 @@
 //  MAKE IT
 
 import { calculateHash, signTransaction } from "../../../core/transaction/TransactionSigning";
-import axios from 'axios'
+// import axios from 'axios'
 import { isValidTransaction } from "../../../core/transaction/TransactionValidation";
 import { RawTransaction } from "../../../interfaces/Transaction";
 import { TransactionPoolDB } from "../../../packages/db/memory/transactionpool";

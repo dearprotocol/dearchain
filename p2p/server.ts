@@ -83,12 +83,15 @@ wsServer.on('request', function(request:any) {
     
     var connection = request.accept('echo-protocol', request.origin);
     console.log((new Date()) + ' Connection accepted.');
+    let address =  connection.remoteAddresses
     connections.push(connection)
-    console.log("connection ", connection.remoteAddresses)
+    // console.log("connection ",address)
+    console.log("connection ",connections)
 
-    // console.log("DB",connections)
-   
+    
     // connections[0]=connection
+
+    // console.log("DB",connections[0])
     // fs.writeFileSync(path.join(__dirname,'connections.json'),JSON.stringify(connection,replacerFunc()))
     
     // data = {

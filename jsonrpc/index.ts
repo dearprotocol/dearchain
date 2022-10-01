@@ -6,6 +6,7 @@ import { getBalance } from './modules/address/getBalance';
 import { getNonce } from './modules/address/getNonce';
 import { getTransactionCount } from './modules/address/getTransactionCount';
 import { sendSignedTransaction } from './modules/transaction/sendSignedTransaction';
+import { getTransaction } from './modules/transaction/getTransaction';
 const app = express();
 interface iMethods {
     [key:string]:any
@@ -16,7 +17,8 @@ const methods:iMethods={
     "getbalance":getBalance,
     "getnonce":getNonce,
     "gettransactioncount": getTransactionCount,
-    "sendsignedtransaction" : sendSignedTransaction
+    "sendsignedtransaction" : sendSignedTransaction,
+    "transactions": getTransaction
 }
 
 

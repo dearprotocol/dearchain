@@ -5,6 +5,7 @@ import { isValidTransaction } from "../core/transaction/TransactionValidation";
 import { convertToHex } from "../packages/address/external";
 import { BlocksDB, LastBlock } from "../packages/db/memory/blocks";
 import { TransactionPoolDB } from "../packages/db/memory/transactionpool";
+import { connections } from "../packages/db/memory/wss";
 import { emitWss } from "./emit";
 
 const transaction: any = [];
@@ -176,6 +177,23 @@ function peerList(){
 
 
   // Peer LIST
+console.log("connections",connections)
+  if(connections){
+
+        connections?.forEach((res:any )=> {
+            emitWss(
+                JSON.stringify({
+                  event_name: "peer list",
+                  address: res,
+                })
+              );
+
+              console.log("emmit",res)
+        
+    });
+
+
+  }
 
 
 }
@@ -186,4 +204,5 @@ function peerList(){
 // txnSubmit();
 // blockSubmit();
 
+peerList()
 
